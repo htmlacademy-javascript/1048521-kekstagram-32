@@ -1,7 +1,7 @@
 // Функция для проверки длины строки
 function checkLengthString(string, maxLength) {
 
-  if(typeof string !== 'string') {
+  if (typeof string !== 'string') {
     return false;
   }
 
@@ -31,18 +31,18 @@ checkStringPalindrome('Арбуз у зубра');
 function returnsNumber(str) {
   let string = '';
 
-  if(typeof str === 'number') {
+  if (typeof str === 'number') {
     string = parseInt(Math.abs(str).toString().replace('.', ''), 10);
   }
 
   for(let i = 0; i <= str.length - 1; i++) {
     const pars = Number.isNaN(parseInt(str[i], 10));
-    if(pars === false) {
+    if (pars === false) {
       string += str[i];
     }
   }
 
-  if(string === '') {
+  if (string === '') {
     return NaN;
   }
 
