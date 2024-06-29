@@ -1,4 +1,10 @@
-// Функция для проверки длины строки
+
+/**
+ * Функция для проверки длины строки
+ * @param {string} string - строка для проверки
+ * @param {string} maxLength - максимальная длина строки
+ * @returns {boolean} - true, если длина строки меньше или равна maxLength
+ */
 function checkLengthString(string, maxLength) {
 
   if (typeof string !== 'string') {
@@ -14,7 +20,11 @@ checkLengthString('жжжжжжжжжжжжжжж', 18);
 checkLengthString('жжжжжж', 10);
 
 
-// Функция для проверки, является ли строка палиндромом
+/**
+ * Функция для проверки, является ли строка палиндромом
+ * @param {string} string - строка для проверки
+ * @returns {boolean} - true, если строка является палиндромом
+ */
 
 function checkStringPalindrome (string) {
   const str = string.replaceAll(' ', '').toLowerCase();
@@ -27,7 +37,12 @@ checkStringPalindrome('Кекс');
 checkStringPalindrome('Арбуз у зубра');
 
 
-// Функция принимает строку, извлекает содержащиеся в ней цифры от 0 до 9 и возвращает их в виде целого положительного числа
+/**
+ * Функция для возврата целого положительного числа
+ * @param {string} str - строка для обработки
+ * @returns {number} - целое положительное число
+ */
+
 function returnsNumber(str) {
   let string = '';
 
