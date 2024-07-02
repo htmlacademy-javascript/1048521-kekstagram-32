@@ -46,4 +46,13 @@ function generateRandomObject() {
   };
 }
 
-console.log(generateRandomObject());
+/**
+ * Создание массива из 25 сгенерированных объектов
+ * @param {number} 25 - количество выведенных объектов
+ * @param {function} generateRandomObject - функция для генерации случайного объекта
+ * @returns {object} arrayData - массив объектов
+ */
+
+const arrayData = Array.from({length: 25}, generateRandomObject);
+
+console.log(arrayData);
