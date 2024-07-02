@@ -2,12 +2,13 @@
 /**
  * Функция для проверки длины строки
  * @param {string} string - строка для проверки
- * @param {string} maxLength - максимальная длина строки
+ * @param {number} maxLength - максимальная длина строки
  * @returns {boolean} - true, если длина строки меньше или равна maxLength
  */
+
 function checkLengthString(string, maxLength) {
 
-  if (typeof string !== 'string') {
+  if(typeof string !== 'string') {
     return false;
   }
 
@@ -26,7 +27,7 @@ checkLengthString('жжжжжж', 10);
  * @returns {boolean} - true, если строка является палиндромом
  */
 
-function checkStringPalindrome (string) {
+function checkStringPalindrome(string) {
   const str = string.replaceAll(' ', '').toLowerCase();
   return str === str.split('').reverse().join('');
 }
@@ -46,7 +47,7 @@ checkStringPalindrome('Арбуз у зубра');
 function returnsNumber(str) {
   let string = '';
 
-  if (typeof str === 'number') {
+  if(typeof str === 'number') {
     string = parseInt(Math.abs(str).toString().replace('.', ''), 10);
   }
 
@@ -57,7 +58,7 @@ function returnsNumber(str) {
     }
   }
 
-  if (string === '') {
+  if(string === '') {
     return NaN;
   }
 
