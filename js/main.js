@@ -37,12 +37,22 @@ function generateRandomObject() {
 
   const idPhoto = getRandomInteger(1, 25);
   const idLikes = getRandomInteger(15, 200);
+  const idAvatar = getRandomInteger(1, 6);
+  const idComments = String(Math.random()).replace(/^0+/, '').replace('.', '');
+  // const numberCommentaries = getRandomInteger(0, 30);
+
 
   return {
     id: idPhoto,
     url: `photos/${idPhoto}.jpg`,
     description: arrDescriptionPhoto[idPhoto - 1],
-    likes: idLikes
+    likes: idLikes,
+    comments: {
+      id: +idComments,
+      avatar: `img/avatar-${idAvatar}.svg`,
+      message: getRandomArrayElement(arrMessages),
+      name: getRandomArrayElement(arrNames),
+    }
   };
 }
 
