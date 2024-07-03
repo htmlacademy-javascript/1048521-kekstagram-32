@@ -11,7 +11,6 @@ const arrDescriptionPhoto = ['Пляж у озера', 'Указатель', 'В
  * @param {number} b - верхняя граница
  * @returns {number} result - случайный индекс элемента из массива
  */
-
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
@@ -24,35 +23,32 @@ const getRandomInteger = (a, b) => {
  * @param {object} elements - массив данных
  * @returns {string} element - элемент массива
  */
-
 const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
+
+function creatingListMessages() {
+  return Array.from({length: getRandomInteger(0, 30)}, () => {
+    const commentUser = {
+      id: +String(Math.random()).replace(/^0+/, '').replace('.', ''),
+      avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
+      message: getRandomArrayElement(arrMessages),
+      name: getRandomArrayElement(arrNames),
+    };
+    return commentUser;
+  });
+}
 
 /**
  * Функция для генерации случайного объекта
  * @param {object} [] - массив данных пользователя
  * @returns {object} [] - массив объектов
  */
-
-function generateRandomObject() {
-
-  const idPhoto = getRandomInteger(1, 25);
-  const idLikes = getRandomInteger(15, 200);
-  const idAvatar = getRandomInteger(1, 6);
-  const idComments = String(Math.random()).replace(/^0+/, '').replace('.', '');
-  // const numberCommentaries = getRandomInteger(0, 30);
-
-
+function generateRandomObject(index) {
   return {
-    id: idPhoto,
-    url: `photos/${idPhoto}.jpg`,
-    description: arrDescriptionPhoto[idPhoto - 1],
-    likes: idLikes,
-    comments: {
-      id: +idComments,
-      avatar: `img/avatar-${idAvatar}.svg`,
-      message: getRandomArrayElement(arrMessages),
-      name: getRandomArrayElement(arrNames),
-    }
+    id: index,
+    url: `photos/${index}.jpg`,
+    description: arrDescriptionPhoto[index - 1],
+    likes: getRandomInteger(15, 200),
+    comments: creatingListMessages(arrMessages),
   };
 }
 
@@ -62,7 +58,6 @@ function generateRandomObject() {
  * @param {function} generateRandomObject - функция для генерации случайного объекта
  * @returns {object} arrayData - массив объектов
  */
-
-const arrayData = Array.from({length: 25}, generateRandomObject);
+const arrayData = Array.from({length: 25}, (_, index) => generateRandomObject(++index));
 
 console.log(arrayData);
