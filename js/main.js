@@ -1,3 +1,3 @@
 import {generatePhotos} from './data.js';
 
-console.log(generatePhotos(25));
+generatePhotos(25);
