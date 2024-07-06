@@ -73,3 +73,37 @@ returnsNumber('а я томат'); // NaN
 returnsNumber(2023); // 2023
 returnsNumber(-1); // 1
 returnsNumber(1.5); // 15
+
+/**
+ * Функция которая ???
+ * @param {string} startTime - время начала рабочего дня
+ * @param {string} endTime - время конца рабочего дня
+ * @param {string} meetingStartTime - время старта встречи
+ * @param {number} durationMeeting - продолжительность встречи в минутах
+ * @returns {boolean} - возвращает true, если встреча не выходит за рамки рабочего  дня, и false, если выходит
+ */
+function calculateMeetingTime(startTime, endTime, meetingStartTime, durationMeeting) {
+  const start = startTime.split(':', 2);
+  const startWork = (start[0] * 60) + Number(start[1]);
+
+  const end = endTime.split(':', 2);
+  const endWork = (end[0] * 60) + Number(end[1]);
+
+  const meeting = meetingStartTime.split(':', 2);
+  const meetingWork = (meeting[0] * 60) + Number(meeting[1]);
+
+  if(startWork > meetingWork) {
+    return false;
+  }
+  if((meetingWork + durationMeeting) > endWork) {
+    return false;
+  }
+
+  return true;
+}
+
+calculateMeetingTime('08:00', '17:30', '14:00', 90); // true
+calculateMeetingTime('8:0', '10:0', '8:0', 120); // true
+calculateMeetingTime('08:00', '14:30', '14:00', 90); // false
+calculateMeetingTime('14:00', '17:30', '08:0', 90); // false
+calculateMeetingTime('8:00', '17:30', '08:00', 900); // false
