@@ -13,9 +13,9 @@ const getRandomInteger = (a, b) => {
 
 /**
  * Функция по поиску случайного элемента в переданном массиве
- * @param {object} elements - массив данных
- * @returns {string} element - элемент массива
+ * @param {Array}} elements - массив данных
+ * @returns {*} element - элемент массива
  */
-const elementFromArray = (elements) => elements[getRandomInteger(0, elements.length - 1)];
+const getElementFromArray = (elements) => elements[getRandomInteger(0, elements.length - 1)];
 
-export {getRandomInteger, elementFromArray};
+export {getRandomInteger, getElementFromArray};

@@ -1,14 +1,15 @@
 
+const NUMBER_MINUTES_HOUR = 60;
+
 /**
  * Функция для проверки длины строки
  * @param {string} string - строка для проверки
  * @param {number} maxLength - максимальная длина строки
  * @returns {boolean} - true, если длина строки меньше или равна maxLength
  */
-
 function checkLengthString(string, maxLength) {
 
-  if(typeof string !== 'string') {
+  if (typeof string !== 'string') {
     return false;
   }
 
@@ -26,7 +27,6 @@ checkLengthString('жжжжжж', 10);
  * @param {string} string - строка для проверки
  * @returns {boolean} - true, если строка является палиндромом
  */
-
 function checkStringPalindrome(string) {
   const str = string.replaceAll(' ', '').toLowerCase();
   return str === str.split('').reverse().join('');
@@ -43,11 +43,10 @@ checkStringPalindrome('Арбуз у зубра');
  * @param {string} str - строка для обработки
  * @returns {number} - целое положительное число
  */
-
 function returnsNumber(str) {
   let string = '';
 
-  if(typeof str === 'number') {
+  if (typeof str === 'number') {
     string = parseInt(Math.abs(str).toString().replace('.', ''), 10);
   }
 
@@ -58,7 +57,7 @@ function returnsNumber(str) {
     }
   }
 
-  if(string === '') {
+  if (string === '') {
     return NaN;
   }
 
@@ -75,7 +74,7 @@ returnsNumber(-1); // 1
 returnsNumber(1.5); // 15
 
 /**
- * Функция которая ???
+ * Функция рассчета времени встречи
  * @param {string} startTime - время начала рабочего дня
  * @param {string} endTime - время конца рабочего дня
  * @param {string} meetingStartTime - время старта встречи
@@ -84,18 +83,15 @@ returnsNumber(1.5); // 15
  */
 function calculateMeetingTime(startTime, endTime, meetingStartTime, durationMeeting) {
   const start = startTime.split(':', 2);
-  const startWork = (start[0] * 60) + Number(start[1]);
+  const startWork = (start[0] * NUMBER_MINUTES_HOUR) + Number(start[1]);
 
   const end = endTime.split(':', 2);
-  const endWork = (end[0] * 60) + Number(end[1]);
+  const endWork = (end[0] * NUMBER_MINUTES_HOUR) + Number(end[1]);
 
   const meeting = meetingStartTime.split(':', 2);
-  const meetingWork = (meeting[0] * 60) + Number(meeting[1]);
+  const meetingWork = (meeting[0] * NUMBER_MINUTES_HOUR) + Number(meeting[1]);
 
-  if(startWork > meetingWork) {
-    return false;
-  }
-  if((meetingWork + durationMeeting) > endWork) {
+  if ((startWork > meetingWork) || ((meetingWork + durationMeeting) > endWork)) {
     return false;
   }
 
