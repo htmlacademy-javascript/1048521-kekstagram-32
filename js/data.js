@@ -40,7 +40,7 @@ function generateRandomPhoto(index) {
 
 /**
  * Создание массива из 25 сгенерированных объектов
- * @param {number} 25 - количество выведенных объектов
+ * @param {number} - количество выведенных объектов
  * @returns {object} - массив объектов фотографий
  */
 const generatePhotos = (count) => Array.from({length: count}, (_, index) => generateRandomPhoto(++index));

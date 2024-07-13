@@ -1,3 +1,1 @@
-import {generatePhotos} from './data.js';
-
-console.log(generatePhotos(25));
+import './miniatures.js';
