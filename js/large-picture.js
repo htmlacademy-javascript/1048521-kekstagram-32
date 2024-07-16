@@ -8,7 +8,7 @@ const socialCaption = bigPicture.querySelector('.social__caption');
 
 function renderFullSizeImage (evt) {
   if (evt.target.closest('.picture__img')) {
-    console.log(evt.target);
+    // console.log(evt.target);
     srcBigPhoto.src = evt.target.src;
     socialCaption.textContent = evt.target.alt;
     // likesCount.textContent = evt.target.likes;
@@ -27,3 +27,9 @@ function closeLargePhoto () {
 }
 buttonBigPictureCancel.addEventListener('click', closeLargePhoto);
 
+document.addEventListener('keydown', (evt) => {
+  if (evt.key === 'Escape') {
+    evt.preventDefault();
+    bigPicture.classList.add('hidden');
+  }
+});
