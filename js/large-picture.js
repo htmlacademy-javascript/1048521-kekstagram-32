@@ -4,7 +4,9 @@ const srcBigPhoto = bigPicture.querySelector('.big-picture__img').querySelector(
 const socialCaption = bigPicture.querySelector('.social__caption');
 const likesCount = bigPicture.querySelector('.likes-count');
 const socialCommentTotalCount = bigPicture.querySelector('.social__comment-total-count');
+const socialCommentShownCount = bigPicture.querySelector('.social__comment-shown-count');
 const socialComments = document.querySelector('.social__comments');
+const socialCommentsLoader = bigPicture.querySelector('.social__comments-loader');
 
 /**
  * Функция создания и  открытия полномерного изображения
@@ -16,11 +18,25 @@ function renderFullSizeImage({url, likes, comments, description}) {
   socialCaption.textContent = description;
   likesCount.textContent = likes;
   socialCommentTotalCount.textContent = comments.length;
+  if (comments.length <= 5) {
+    socialCommentShownCount.textContent = comments.length;
+    socialCommentsLoader.classList.add('hidden');
+  }
+  if (comments.length === 0) {
+    bigPicture.querySelector('.social__comment-count').innerHTML = '<span class="social__comment-shown-count">0 комментариев</span>';
+  }
 
   bigPicture.classList.remove('hidden');
   document.querySelector('body').classList.add('modal-open');
 
-  const commentsSlice = comments.slice(0,5);
+  let count = 5;
+
+  socialCommentsLoader.addEventListener('click', () => {
+    // console.log(count);
+    count = count + 5;
+    return count;
+  });
+  const commentsSlice = comments.slice(0, count);
 
   socialComments.innerHTML = '';
   commentsSlice.forEach((comment) => {
