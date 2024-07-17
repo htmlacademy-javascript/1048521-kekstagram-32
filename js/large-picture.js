@@ -6,7 +6,12 @@ const likesCount = bigPicture.querySelector('.likes-count');
 const socialCommentTotalCount = bigPicture.querySelector('.social__comment-total-count');
 const socialComments = document.querySelector('.social__comments');
 
-function renderFullSizeImage ({url, likes, comments, description}) {
+/**
+ * Функция создания и  открытия полномерного изображения
+ * @param {object} - данные изображения
+ * @returns {*} - возвращает отрисованую большую фотографию с комментариями
+ */
+function renderFullSizeImage({url, likes, comments, description}) {
   srcBigPhoto.src = url;
   socialCaption.textContent = description;
   likesCount.textContent = likes;
@@ -31,13 +36,18 @@ function renderFullSizeImage ({url, likes, comments, description}) {
   document.querySelector('.comments-loader').classList.add('hidden');
 }
 
-
-function closeLargePhoto () {
+/**
+ * Функция закрытия полномерного изображения
+ */
+function closeLargePhoto() {
   bigPicture.classList.add('hidden');
   document.querySelector('body').classList.remove('modal-open');
 }
 buttonBigPictureCancel.addEventListener('click', closeLargePhoto);
 
+/**
+ * Функция закрытия полномерного изображения по нажатию клавиши Esc
+ */
 document.addEventListener('keydown', (evt) => {
   if (evt.key === 'Escape') {
     evt.preventDefault();

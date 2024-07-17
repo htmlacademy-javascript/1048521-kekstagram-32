@@ -3,10 +3,14 @@ const templateUserImageElement = document.querySelector('#picture').content.quer
 const containerWithPhotosElement = document.querySelector('.pictures');
 const fragmentWithPhotosElement = document.createDocumentFragment();
 
+/**
+ * Функция отрисовки фотографий на странице
+ * @param {object} data - данные изображения
+ * @returns {array} - возвращает массив фотографий
+ */
 function drawingPhotos(data) {
   data.forEach(({url, likes, comments, description}) => {
     const photoElement = templateUserImageElement.cloneNode(true);
-
     photoElement.querySelector('.picture__img').src = url;
     photoElement.querySelector('.picture__comments').textContent = comments.length;
     photoElement.querySelector('.picture__likes').textContent = likes;
@@ -15,10 +19,8 @@ function drawingPhotos(data) {
       evt.preventDefault();
       renderFullSizeImage({url, likes, comments, description});
     });
-
     fragmentWithPhotosElement.appendChild(photoElement);
   });
-
   containerWithPhotosElement.appendChild(fragmentWithPhotosElement);
 }
 
