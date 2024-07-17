@@ -20,8 +20,10 @@ function renderFullSizeImage({url, likes, comments, description}) {
   bigPicture.classList.remove('hidden');
   document.querySelector('body').classList.add('modal-open');
 
+  const commentsSlice = comments.slice(0,5);
+
   socialComments.innerHTML = '';
-  comments.forEach((comment) => {
+  commentsSlice.forEach((comment) => {
     socialComments.insertAdjacentHTML('beforeend', `<li class="social__comment">
       <img
         class='social__picture'
@@ -32,8 +34,8 @@ function renderFullSizeImage({url, likes, comments, description}) {
     </li>`);
   });
 
-  document.querySelector('.social__comment-count').classList.add('hidden');
-  document.querySelector('.comments-loader').classList.add('hidden');
+  // document.querySelector('.social__comment-count').classList.add('hidden');
+  // document.querySelector('.comments-loader').classList.add('hidden');
 }
 
 /**
