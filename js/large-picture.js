@@ -18,10 +18,6 @@ function renderFullSizeImage({url, likes, comments, description}) {
   socialCaption.textContent = description;
   likesCount.textContent = likes;
   socialCommentTotalCount.textContent = comments.length;
-  if (comments.length <= 5) {
-    socialCommentShownCount.textContent = comments.length;
-    socialCommentsLoader.classList.add('hidden');
-  }
   if (comments.length === 0) {
     bigPicture.querySelector('.social__comment-count').innerHTML = '<span class="social__comment-shown-count">0 комментариев</span>';
   }
@@ -29,29 +25,37 @@ function renderFullSizeImage({url, likes, comments, description}) {
   bigPicture.classList.remove('hidden');
   document.querySelector('body').classList.add('modal-open');
 
-  let count = 5;
-
-  socialCommentsLoader.addEventListener('click', () => {
-    // console.log(count);
-    count = count + 5;
-    return count;
-  });
-  const commentsSlice = comments.slice(0, count);
-
+  let count = 0;
   socialComments.innerHTML = '';
-  commentsSlice.forEach((comment) => {
-    socialComments.insertAdjacentHTML('beforeend', `<li class="social__comment">
-      <img
-        class='social__picture'
-        src= ${comment.avatar}
-        alt= ${comment.name}
-        width='35' height='35'>
-      <p class='social__text'>${comment.message}</p>
-    </li>`);
-  });
 
-  // document.querySelector('.social__comment-count').classList.add('hidden');
-  // document.querySelector('.comments-loader').classList.add('hidden');
+  function uploadPhotos() {
+    for (let i = 0; i < 5; i++) {
+      if (count < comments.length) {
+        socialComments.insertAdjacentHTML('beforeend', `<li class="social__comment">
+            <img
+              class='social__picture'
+              src= ${comments[count].avatar}
+              alt= ${comments[count].name}
+              width='35' height='35'>
+            <p class='social__text'>${comments[count].message}</p>
+          </li>`);
+        count++;
+        if (count >= comments.length) {
+          socialCommentsLoader.classList.add('hidden');
+        }
+
+      }
+    }
+
+    if(comments.length < 5) {
+      socialCommentShownCount.textContent = comments.length;
+    } else {
+      socialCommentShownCount.textContent = count;
+    }
+
+  }
+  uploadPhotos();
+  socialCommentsLoader.addEventListener('click', uploadPhotos);
 }
 
 /**
