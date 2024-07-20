@@ -4,7 +4,9 @@ const srcBigPhoto = bigPicture.querySelector('.big-picture__img').querySelector(
 const socialCaption = bigPicture.querySelector('.social__caption');
 const likesCount = bigPicture.querySelector('.likes-count');
 const socialCommentTotalCount = bigPicture.querySelector('.social__comment-total-count');
+const socialCommentShownCount = bigPicture.querySelector('.social__comment-shown-count');
 const socialComments = document.querySelector('.social__comments');
+const socialCommentsLoader = bigPicture.querySelector('.social__comments-loader');
 
 /**
  * Функция создания и  открытия полномерного изображения
@@ -16,24 +18,44 @@ function renderFullSizeImage({url, likes, comments, description}) {
   socialCaption.textContent = description;
   likesCount.textContent = likes;
   socialCommentTotalCount.textContent = comments.length;
+  if (comments.length === 0) {
+    bigPicture.querySelector('.social__comment-count').innerHTML = '<span class="social__comment-shown-count">0 комментариев</span>';
+  }
 
   bigPicture.classList.remove('hidden');
   document.querySelector('body').classList.add('modal-open');
 
+  let count = 0;
   socialComments.innerHTML = '';
-  comments.forEach((comment) => {
-    socialComments.insertAdjacentHTML('beforeend', `<li class="social__comment">
-      <img
-        class='social__picture'
-        src= ${comment.avatar}
-        alt= ${comment.name}
-        width='35' height='35'>
-      <p class='social__text'>${comment.message}</p>
-    </li>`);
-  });
 
-  document.querySelector('.social__comment-count').classList.add('hidden');
-  document.querySelector('.comments-loader').classList.add('hidden');
+  function uploadPhotos() {
+    for (let i = 0; i < 5; i++) {
+      if (count < comments.length) {
+        socialComments.insertAdjacentHTML('beforeend', `<li class="social__comment">
+            <img
+              class='social__picture'
+              src= ${comments[count].avatar}
+              alt= ${comments[count].name}
+              width='35' height='35'>
+            <p class='social__text'>${comments[count].message}</p>
+          </li>`);
+        count++;
+        if (count >= comments.length) {
+          socialCommentsLoader.classList.add('hidden');
+        }
+
+      }
+    }
+
+    if(comments.length < 5) {
+      socialCommentShownCount.textContent = comments.length;
+    } else {
+      socialCommentShownCount.textContent = count;
+    }
+
+  }
+  uploadPhotos();
+  socialCommentsLoader.addEventListener('click', uploadPhotos);
 }
 
 /**
