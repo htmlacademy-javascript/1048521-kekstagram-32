@@ -11,7 +11,7 @@ const LIST_PHOTO_DESCRIPTIONS = ['Пляж у озера', 'Указатель',
  * Функция создания списка сообщений к фотографии
  * @returns {Array} - массив объеков в виде комментариев к фото
  */
-function generateComment() {
+function generateComments() {
   return Array.from({length: getRandomInteger(0, 30)}, () => {
     const commentUser = {
       id: +String(Math.random()).replace(/^0+/, '').replace('.', ''),
@@ -34,7 +34,7 @@ function generateRandomPhoto(index) {
     url: `photos/${index}.jpg`,
     description: getElementFromArray(LIST_PHOTO_DESCRIPTIONS),
     likes: getRandomInteger(15, 200),
-    comments: generateComment(),
+    comments: generateComments(),
   };
 }
 

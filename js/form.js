@@ -3,6 +3,8 @@ const imgUploadOverlay = formImgUpload.querySelector('.img-upload__overlay');
 const inputImgUpload = formImgUpload.querySelector('.img-upload__input');
 const buttonUploadCancel = formImgUpload.querySelector('.img-upload__cancel');
 const previewPhoto = document.querySelector('.img-upload__preview img');
+const inputHashtags = document.querySelector('.text__hashtags');
+const textareaDescription = document.querySelector('.text__description');
 
 /**
  * Функция отрытия полномерного изображения
@@ -27,7 +29,11 @@ buttonUploadCancel.addEventListener('click', closeForm);
  */
 document.addEventListener('keydown', (evt) => {
   if (evt.key === 'Escape') {
-    evt.preventDefault();
-    imgUploadOverlay.classList.add('hidden');
+    // console.log(evt.target);
+    if (evt.target !== inputHashtags && evt.target !== textareaDescription) {
+      evt.preventDefault();
+      imgUploadOverlay.classList.add('hidden');
+      inputImgUpload.value = '';
+    }
   }
 });
