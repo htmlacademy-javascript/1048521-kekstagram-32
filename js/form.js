@@ -5,6 +5,36 @@ const buttonUploadCancel = formImgUpload.querySelector('.img-upload__cancel');
 const previewPhoto = document.querySelector('.img-upload__preview img');
 const inputHashtags = document.querySelector('.text__hashtags');
 const textareaDescription = document.querySelector('.text__description');
+const buttonScaleControlSmaller = document.querySelector('.scale__control--smaller');
+const buttonScaleControlBigger = document.querySelector('.scale__control--bigger');
+const scaleControlValue = document.querySelector('.scale__control--value');
+
+/**
+ * Функция уменьшения масштаба загруженной картинки
+ */
+function reduceImage() {
+  const valueSlice = +scaleControlValue.value.slice(0, -1);
+  if (valueSlice > 25) {
+    scaleControlValue.value = `${valueSlice - 25}%`;
+    previewPhoto.style.transform = `scale(${(valueSlice - 25) / 100})`;
+  }
+}
+buttonScaleControlSmaller.addEventListener('click', reduceImage);
+
+/**
+ * Функция увеличения масштаба загруженной картинки
+ */
+function increaseImage() {
+  const valueSlice = +scaleControlValue.value.slice(0, -1);
+  if (valueSlice <= 75) {
+    scaleControlValue.value = `${+valueSlice + 25}%`;
+    previewPhoto.style.transform = `scale(${(valueSlice + 25) / 100})`;
+  }
+  if (valueSlice > 75) {
+    previewPhoto.style.transform = 'scale(1)';
+  }
+}
+buttonScaleControlBigger.addEventListener('click', increaseImage);
 
 const pristine = new Pristine(formImgUpload, {
   classTo: 'img-upload__field-wrapper',
