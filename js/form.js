@@ -12,6 +12,11 @@ const pristine = new Pristine(formImgUpload, {
   errorTextClass: 'img-upload__field-wrapper--error',
 });
 
+/**
+ * Функция для разбивки строки на массив
+ * @param {string} str - значение поле ввода
+ * @returns {array} - массив из хэштегов
+ */
 const splitHashtagsArray = (str) => str
   .trim()
   .split(' ')
@@ -27,22 +32,42 @@ function validateHashtagsLength (value) {
 }
 pristine.addValidator(formImgUpload.querySelector('.text__hashtags'), validateHashtagsLength, 'Максимальная длина одного хэштега 20 символов, включая решётку');
 
+/**
+ * Функция для проверки первого символа хэштега
+ * @param {string} value -атрибут поля ввода
+ * @returns {boolean} - true, если хэштег начинается с символа # (решётка)
+ */
 function checkFirstCharacter (value) {
   return splitHashtagsArray(value).every((tag) => tag[0] === '#');
 }
 pristine.addValidator(formImgUpload.querySelector('.text__hashtags'), checkFirstCharacter, 'Хэштег начинается с символа # (решётка)');
 
+/**
+ * Функция для проверки соответствия хэштега шаблону
+ * @param {string} value -атрибут поля ввода
+ * @returns {boolean} - true, если хэштег соответствует шаблону
+ */
 function validateHashtag (value) {
   const sampleHashtag = /^#[a-zа-яё0-9]{1,19}$/i;
   return splitHashtagsArray(value).every((tag) => sampleHashtag.test(tag));
 }
 pristine.addValidator(formImgUpload.querySelector('.text__hashtags'), validateHashtag, 'Строка не соответсвтует шаблону');
 
+/**
+ * Функция для проверки количества хэштегов
+ * @param {string} value -атрибут поля ввода
+ * @returns {boolean} - true, если количества хэштегов не более 5
+ */
 function checkNumberHashtags (value) {
   return splitHashtagsArray(value).length <= 5;
 }
 pristine.addValidator(formImgUpload.querySelector('.text__hashtags'), checkNumberHashtags, 'Нельзя указать больше пяти хэштегов');
 
+/**
+ * Функция для проверки уникальности хэштегов
+ * @param {string} value -атрибут поля ввода
+ * @returns {boolean} - true, если все хэштегои уникальны
+ */
 function checkUniquenessHashtags (value) {
   const str = splitHashtagsArray(value).map((elem) => elem.toLowerCase());
   return str.length === new Set(str).size;
