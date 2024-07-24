@@ -7,6 +7,36 @@ const socialCommentTotalCount = bigPicture.querySelector('.social__comment-total
 const socialCommentShownCount = bigPicture.querySelector('.social__comment-shown-count');
 const socialComments = document.querySelector('.social__comments');
 const socialCommentsLoader = bigPicture.querySelector('.social__comments-loader');
+const socialCommentForCopy = socialComments.querySelector('.social__comment');
+
+/**
+ * Функция загрузки комментариев к фотографии
+ * @returns {array} - возвращает список комментариев к фотографии
+ */
+let currentIndex = 0;
+const displayedComments = [];
+function handlerCommentsPhoto(comments) {
+  socialComments.innerHTML = '';
+  const commentsToShow = comments.slice(currentIndex, currentIndex + 5);
+  displayedComments.push(...commentsToShow);
+  displayedComments.forEach((comment) => {
+    const commentElement = socialCommentForCopy.cloneNode(true);
+    commentElement.querySelector('.social__picture').src = comment.avatar;
+    commentElement.querySelector('.social__text').textContent = comment.message;
+    commentElement.querySelector('.social__picture').alt = comment.name;
+    socialComments.appendChild(commentElement);
+  });
+  currentIndex += commentsToShow.length;
+
+  if (comments.length < 5) {
+    socialCommentShownCount.textContent = comments.length;
+  } else {
+    socialCommentShownCount.textContent = currentIndex;
+  }
+  if (currentIndex === comments.length) {
+    socialCommentsLoader.classList.add('hidden');
+  }
+}
 
 /**
  * Функция создания и  открытия полномерного изображения
@@ -18,44 +48,24 @@ function renderFullSizeImage({url, likes, comments, description}) {
   socialCaption.textContent = description;
   likesCount.textContent = likes;
   socialCommentTotalCount.textContent = comments.length;
+  if (comments.length <= 5) {
+    socialCommentShownCount.textContent = comments.length;
+    socialCommentsLoader.classList.add('hidden');
+  }
   if (comments.length === 0) {
     bigPicture.querySelector('.social__comment-count').innerHTML = '<span class="social__comment-shown-count">0 комментариев</span>';
+    socialCommentsLoader.classList.add('hidden');
   }
 
   bigPicture.classList.remove('hidden');
   document.querySelector('body').classList.add('modal-open');
 
-  let count = 0;
-  socialComments.innerHTML = '';
+  handlerCommentsPhoto(comments);
 
-  function uploadPhotos() {
-    for (let i = 0; i < 5; i++) {
-      if (count < comments.length) {
-        socialComments.insertAdjacentHTML('beforeend', `<li class="social__comment">
-            <img
-              class='social__picture'
-              src= ${comments[count].avatar}
-              alt= ${comments[count].name}
-              width='35' height='35'>
-            <p class='social__text'>${comments[count].message}</p>
-          </li>`);
-        count++;
-        if (count >= comments.length) {
-          socialCommentsLoader.classList.add('hidden');
-        }
+  socialCommentsLoader.addEventListener('click', () => {
+    handlerCommentsPhoto(comments);
+  });
 
-      }
-    }
-
-    if(comments.length < 5) {
-      socialCommentShownCount.textContent = comments.length;
-    } else {
-      socialCommentShownCount.textContent = count;
-    }
-
-  }
-  uploadPhotos();
-  socialCommentsLoader.addEventListener('click', uploadPhotos);
 }
 
 /**
@@ -64,6 +74,7 @@ function renderFullSizeImage({url, likes, comments, description}) {
 function closeLargePhoto() {
   bigPicture.classList.add('hidden');
   document.querySelector('body').classList.remove('modal-open');
+  socialCommentsLoader.removeEventListener('click', handlerCommentsPhoto);
 }
 buttonBigPictureCancel.addEventListener('click', closeLargePhoto);
 
@@ -74,6 +85,7 @@ document.addEventListener('keydown', (evt) => {
   if (evt.key === 'Escape') {
     evt.preventDefault();
     bigPicture.classList.add('hidden');
+    socialCommentsLoader.removeEventListener('click', handlerCommentsPhoto);
   }
 });
 

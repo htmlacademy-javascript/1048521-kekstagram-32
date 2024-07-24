@@ -30,7 +30,7 @@
       <section class="img-upload">
         <div class="img-upload__wrapper">
           <h2 class="img-upload__title  visually-hidden">Загрузка фотографии</h2>
-          <form class="img-upload__form" id="upload-select-image" autocomplete="off">
+          <form class="img-upload__form" id="upload-select-image" autocomplete="off" method="post" enctype="multipart/form-data" action="https://32.javascript.htmlacademy.pro/kekstagram" name="new-image">
 
             <!-- Изначальное состояние поля для загрузки изображения -->
             <fieldset class="img-upload__start">
@@ -39,7 +39,7 @@
             </fieldset>
 
             <!-- Форма редактирования изображения -->
-            <div class="img-upload__overlay  hidden">
+            <div class="img-upload__overlay">
               <div class="img-upload__wrapper">
                 <div class="img-upload__preview-container">
 
@@ -119,7 +119,7 @@
                     <input class="text__hashtags" name="hashtags" placeholder="#ХэшТег">
                   </div>
                   <div class="img-upload__field-wrapper">
-                    <textarea class="text__description" name="description" placeholder="Ваш комментарий..."></textarea>
+                    <textarea class="text__description" name="description" placeholder="Ваш комментарий..." data-pristine-maxlength="140" data-pristine-maxlength-message="Комментарий не может быть более 140 символов"></textarea>
                   </div>
                 </fieldset>
 
@@ -233,7 +233,7 @@
         <h2 class="data-error__title">Не удалось загрузить данные</h2>
       </section>
     </template>
-  <script src="./js/functions.js"></script>
+  <script src="./vendor/pristine/pristine.js"></script>
   <script type="module" src="./js/main.js"></script>
 </body>
 </html>
