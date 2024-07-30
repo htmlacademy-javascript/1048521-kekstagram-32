@@ -61,13 +61,7 @@ function addStylePicture(number) {
   }
 }
 
-sliderElement.noUiSlider.on('update', () => {
-  valueElement.value = sliderElement.noUiSlider.get();
-  addStylePicture(sliderElement.noUiSlider.get());
-});
-
-
-effectsList.addEventListener('click', (evt) => {
+function changeSliderEffect(evt) {
   if (evt.target.id === 'effect-none') {
     sliderElement.classList.add('hidden');
   } else if (evt.target.id === 'effect-chrome') {
@@ -123,7 +117,7 @@ effectsList.addEventListener('click', (evt) => {
       step: 0.1,
     });
   }
-});
+}
 
 /**
  * Функция уменьшения масштаба загруженной картинки
@@ -135,7 +129,6 @@ function reduceImage() {
     previewPhoto.style.transform = `scale(${(valueSlice - 25) / 100})`;
   }
 }
-buttonScaleControlSmaller.addEventListener('click', reduceImage);
 
 /**
  * Функция увеличения масштаба загруженной картинки
@@ -150,7 +143,6 @@ function increaseImage() {
     previewPhoto.style.transform = 'scale(1)';
   }
 }
-buttonScaleControlBigger.addEventListener('click', increaseImage);
 
 const pristine = new Pristine(formImgUpload, {
   classTo: 'img-upload__field-wrapper',
@@ -168,84 +160,80 @@ const splitHashtags = (str) => str
   .split(' ')
   .filter((hashtag) => hashtag.length > 0);
 
-/**
- * Функция для проверки длины введённого значения в поле хэштегов
- * @param {string} value -атрибут поля ввода
- * @returns {boolean} - true, меньше или равна 20
- */
-function validateHashtagsLengthMax(value) {
-  return splitHashtags(value).every((tag) => tag.length <= HASHTAG_LENGTH_MAX);
+function validateHashtags() {
+  /**
+  * Функция для проверки длины введённого значения в поле хэштегов
+  * @param {string} value -атрибут поля ввода
+  * @returns {boolean} - true, меньше или равна 20
+  */
+  function validateHashtagsLengthMax(value) {
+    return splitHashtags(value).every((tag) => tag.length <= HASHTAG_LENGTH_MAX);
+  }
+  pristine.addValidator(formImgUpload.querySelector('.text__hashtags'), validateHashtagsLengthMax, 'Максимальная длина одного хэштега должна быть не более 20 символов, включая решётку');
+
+  /**
+  * Функция для проверки длины введённого значения в поле хэштегов
+  * @param {string} value -атрибут поля ввода
+  * @returns {boolean} - true, если длина строки больше или равна 2
+  */
+  function validateHashtagsLengthMin(value) {
+    return splitHashtags(value).every((tag) => tag.length >= HASHTAG_LENGTH_MIN);
+  }
+  pristine.addValidator(formImgUpload.querySelector('.text__hashtags'), validateHashtagsLengthMin, 'Минимальная длина одного хэштега должна быть не меньше 2 символов, включая решётку');
+
+  /**
+  * Функция для проверки первого символа хэштега
+  * @param {string} value -атрибут поля ввода
+  * @returns {boolean} - true, если хэштег начинается с символа # (решётка)
+  */
+  function checkFirstCharacter (value) {
+    return splitHashtags(value).every((tag) => tag[0] === '#');
+  }
+  pristine.addValidator(formImgUpload.querySelector('.text__hashtags'), checkFirstCharacter, 'Хэштег должен начинаться с символа # (решётка)');
+
+  /**
+  * Функция для проверки соответствия хэштега шаблону
+  * @param {string} value -атрибут поля ввода
+  * @returns {boolean} - true, если хэштег соответствует шаблону
+  */
+  function validateHashtag (value) {
+    const sampleHashtag = /^#[a-zа-яё0-9]{1,19}$/i;
+    return splitHashtags(value).every((tag) => sampleHashtag.test(tag));
+  }
+  pristine.addValidator(formImgUpload.querySelector('.text__hashtags'), validateHashtag, 'Строка не соответсвтует шаблону: должны быть первый символ #, далее цифры и буквы');
+
+  /**
+  * Функция для проверки количества хэштегов
+  * @param {string} value -атрибут поля ввода
+  * @returns {boolean} - true, если количества хэштегов не более 5
+  */
+  function checkNumberHashtags (value) {
+    return splitHashtags(value).length <= 5;
+  }
+  pristine.addValidator(formImgUpload.querySelector('.text__hashtags'), checkNumberHashtags, 'Нельзя указать больше пяти хэштегов');
+
+  /**
+  * Функция для проверки уникальности хэштегов
+  * @param {string} value -атрибут поля ввода
+  * @returns {boolean} - true, если все хэштегои уникальны
+  */
+  function checkUniquenessHashtags (value) {
+    const str = splitHashtags(value).map((elem) => elem.toLowerCase());
+    return str.length === new Set(str).size;
+  }
+  pristine.addValidator(formImgUpload.querySelector('.text__hashtags'), checkUniquenessHashtags, 'Один и тот же хэштег не может быть использован дважды');
 }
-pristine.addValidator(formImgUpload.querySelector('.text__hashtags'), validateHashtagsLengthMax, 'Максимальная длина одного хэштега должна быть не более 20 символов, включая решётку');
-
-/**
- * Функция для проверки длины введённого значения в поле хэштегов
- * @param {string} value -атрибут поля ввода
- * @returns {boolean} - true, если длина строки больше или равна 2
- */
-function validateHashtagsLengthMin(value) {
-  return splitHashtags(value).every((tag) => tag.length >= HASHTAG_LENGTH_MIN);
-}
-pristine.addValidator(formImgUpload.querySelector('.text__hashtags'), validateHashtagsLengthMin, 'Минимальная длина одного хэштега должна быть не меньше 2 символов, включая решётку');
-
-/**
- * Функция для проверки первого символа хэштега
- * @param {string} value -атрибут поля ввода
- * @returns {boolean} - true, если хэштег начинается с символа # (решётка)
- */
-function checkFirstCharacter (value) {
-  return splitHashtags(value).every((tag) => tag[0] === '#');
-}
-pristine.addValidator(formImgUpload.querySelector('.text__hashtags'), checkFirstCharacter, 'Хэштег должен начинаться с символа # (решётка)');
-
-/**
- * Функция для проверки соответствия хэштега шаблону
- * @param {string} value -атрибут поля ввода
- * @returns {boolean} - true, если хэштег соответствует шаблону
- */
-function validateHashtag (value) {
-  const sampleHashtag = /^#[a-zа-яё0-9]{1,19}$/i;
-  return splitHashtags(value).every((tag) => sampleHashtag.test(tag));
-}
-pristine.addValidator(formImgUpload.querySelector('.text__hashtags'), validateHashtag, 'Строка не соответсвтует шаблону: должны быть первый символ #, далее цифры и буквы');
-
-/**
- * Функция для проверки количества хэштегов
- * @param {string} value -атрибут поля ввода
- * @returns {boolean} - true, если количества хэштегов не более 5
- */
-function checkNumberHashtags (value) {
-  return splitHashtags(value).length <= 5;
-}
-pristine.addValidator(formImgUpload.querySelector('.text__hashtags'), checkNumberHashtags, 'Нельзя указать больше пяти хэштегов');
-
-/**
- * Функция для проверки уникальности хэштегов
- * @param {string} value -атрибут поля ввода
- * @returns {boolean} - true, если все хэштегои уникальны
- */
-function checkUniquenessHashtags (value) {
-  const str = splitHashtags(value).map((elem) => elem.toLowerCase());
-  return str.length === new Set(str).size;
-}
-pristine.addValidator(formImgUpload.querySelector('.text__hashtags'), checkUniquenessHashtags, 'Один и тот же хэштег не может быть использован дважды');
-
-
-formImgUpload.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  pristine.validate();
-});
 
 /**
  * Функция отрытия полномерного изображения
  */
-inputImgUpload.addEventListener('change', () => {
+function openFullSizeImage() {
   previewPhoto.src = URL.createObjectURL(inputImgUpload.files[0]);
   imgUploadOverlay.classList.remove('hidden');
   document.querySelector('body').classList.add('modal-open');
   document.addEventListener('keydown', onCloseKeydown);
   sliderElement.classList.add('hidden');
-});
+}
 
 /**
 * Функция закрытия полномерного изображения
@@ -257,7 +245,6 @@ function onCloseForm() {
   document.querySelector('body').classList.remove('modal-open');
   document.removeEventListener('keydown', onCloseKeydown);
 }
-buttonUploadCancel.addEventListener('click', onCloseForm);
 
 /**
  * Функция закрытия полномерного изображения по нажатию клавиши Esc
@@ -271,3 +258,28 @@ function onCloseKeydown(evt) {
     }
   }
 }
+
+
+function editImageForm() {
+  sliderElement.noUiSlider.on('update', () => {
+    valueElement.value = sliderElement.noUiSlider.get();
+    addStylePicture(sliderElement.noUiSlider.get());
+  });
+  effectsList.addEventListener('click', (evt) => {
+    changeSliderEffect(evt);
+  });
+
+  buttonScaleControlSmaller.addEventListener('click', reduceImage);
+  buttonScaleControlBigger.addEventListener('click', increaseImage);
+
+  validateHashtags();
+
+  formImgUpload.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    pristine.validate();
+  });
+  inputImgUpload.addEventListener('change', openFullSizeImage);
+  buttonUploadCancel.addEventListener('click', onCloseForm);
+}
+
+export {editImageForm};
