@@ -8,6 +8,7 @@ const socialCommentShownCount = bigPicture.querySelector('.social__comment-shown
 const socialComments = document.querySelector('.social__comments');
 const socialCommentsLoader = bigPicture.querySelector('.social__comments-loader');
 const socialCommentForCopy = socialComments.querySelector('.social__comment');
+const NUMBER_COMMENTS = 5;
 
 /**
  * Функция загрузки комментариев к фотографии
@@ -17,7 +18,7 @@ let currentIndex = 0;
 const displayedComments = [];
 function handlerCommentsPhoto(comments) {
   socialComments.innerHTML = '';
-  const commentsToShow = comments.slice(currentIndex, currentIndex + 5);
+  const commentsToShow = comments.slice(currentIndex, currentIndex + NUMBER_COMMENTS);
   displayedComments.push(...commentsToShow);
   displayedComments.forEach((comment) => {
     const commentElement = socialCommentForCopy.cloneNode(true);
@@ -28,7 +29,7 @@ function handlerCommentsPhoto(comments) {
   });
   currentIndex += commentsToShow.length;
 
-  if (comments.length < 5) {
+  if (comments.length < NUMBER_COMMENTS) {
     socialCommentShownCount.textContent = comments.length;
   } else {
     socialCommentShownCount.textContent = currentIndex;
@@ -48,12 +49,12 @@ function renderFullSizeImage({url, likes, comments, description}) {
   socialCaption.textContent = description;
   likesCount.textContent = likes;
   socialCommentTotalCount.textContent = comments.length;
-  if (comments.length <= 5) {
+  if (comments.length <= NUMBER_COMMENTS) {
     socialCommentShownCount.textContent = comments.length;
     socialCommentsLoader.classList.add('hidden');
   }
   if (comments.length === 0) {
-    bigPicture.querySelector('.social__comment-count').innerHTML = '<span class="social__comment-shown-count">0 комментариев</span>';
+    bigPicture.querySelector('.social__comment-count').textContent = '0 комментариев';
     socialCommentsLoader.classList.add('hidden');
   }
 
