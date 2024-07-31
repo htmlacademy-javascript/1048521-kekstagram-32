@@ -39,34 +39,49 @@ noUiSlider.create(sliderElement, {
 
 const imageEffects = [
   {
-    name: 'none',
-    view: 'none',
-    part: '',
-  },
-  {
     name: 'chrome',
     view: 'grayscale',
     part: '',
+    minSlider: 0,
+    maxSlider: 1,
+    startSlider: 1,
+    stepSlider: 0.1,
   },
   {
     name: 'sepia',
     view: 'sepia',
     part: '',
+    minSlider: 0,
+    maxSlider: 1,
+    startSlider: 1,
+    stepSlider: 0.1,
   },
   {
     name: 'marvin',
     view: 'invert',
     part: '%',
+    minSlider: 0,
+    maxSlider: 100,
+    startSlider: 100,
+    stepSlider: 1,
   },
   {
     name: 'phobos',
     view: 'blur',
     part: 'px',
+    minSlider: 0,
+    maxSlider: 3,
+    startSlider: 3,
+    stepSlider: 0.1,
   },
   {
     name: 'heat',
     view: 'brightness',
     part: '',
+    minSlider: 1,
+    maxSlider: 3,
+    startSlider: 3,
+    stepSlider: 0.1,
   },
 ];
 
@@ -78,6 +93,9 @@ const imageEffects = [
  */
 function addStylePicture(number, list) {
   const inputChecked = effectsList.querySelector('input:checked');
+  if (inputChecked.id === 'effect-none') {
+    previewPhoto.style.filter = 'none';
+  }
   list.forEach((item) => {
     const {name, view, part} = item;
     if (inputChecked.id === `effect-${name}`) {
@@ -90,58 +108,23 @@ function changeSliderEffect(evt) {
   if (evt.target.id === 'effect-none') {
     sliderElement.classList.add('hidden');
     sliderElement.noUiSlider.set(0);
-  } else if (evt.target.id === 'effect-chrome') {
-    sliderElement.classList.remove('hidden');
-    sliderElement.noUiSlider.updateOptions({
-      range: {
-        min: 0,
-        max: 1,
-      },
-      start: 1,
-      step: 0.1,
-    });
-  } else if (evt.target.id === 'effect-sepia') {
-    sliderElement.classList.remove('hidden');
-    sliderElement.noUiSlider.updateOptions({
-      range: {
-        min: 0,
-        max: 1,
-      },
-      start: 1,
-      step: 0.1,
-    });
-  } else if (evt.target.id === 'effect-marvin') {
-    sliderElement.classList.remove('hidden');
-    sliderElement.noUiSlider.updateOptions({
-      range: {
-        min: 0,
-        max: 100,
-      },
-      start: 100,
-      step: 1,
-    });
-  } else if (evt.target.id === 'effect-phobos') {
-    sliderElement.classList.remove('hidden');
-    sliderElement.noUiSlider.updateOptions({
-      range: {
-        min: 0,
-        max: 3,
-      },
-      start: 3,
-      step: 0.1,
-    });
-  } else if (evt.target.id === 'effect-heat') {
-    sliderElement.classList.remove('hidden');
-    sliderElement.noUiSlider.updateOptions({
-      range: {
-        min: 1,
-        max: 3,
-      },
-      start: 3,
-      step: 0.1,
-    });
   }
+  imageEffects.forEach((item) => {
+    const {name, minSlider, maxSlider, startSlider, stepSlider} = item;
+    if (evt.target.id === `effect-${name}`) {
+      sliderElement.classList.remove('hidden');
+      sliderElement.noUiSlider.updateOptions({
+        range: {
+          min: minSlider,
+          max: maxSlider,
+        },
+        start: startSlider,
+        step: stepSlider,
+      });
+    }
+  });
 }
+
 
 /**
  * Функция уменьшения масштаба загруженной картинки
