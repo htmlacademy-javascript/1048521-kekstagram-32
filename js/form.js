@@ -37,29 +37,53 @@ noUiSlider.create(sliderElement, {
   },
 });
 
+const imageEffects = [
+  {
+    name: 'none',
+    view: 'none',
+    part: '',
+  },
+  {
+    name: 'chrome',
+    view: 'grayscale',
+    part: '',
+  },
+  {
+    name: 'sepia',
+    view: 'sepia',
+    part: '',
+  },
+  {
+    name: 'marvin',
+    view: 'invert',
+    part: '%',
+  },
+  {
+    name: 'phobos',
+    view: 'blur',
+    part: 'px',
+  },
+  {
+    name: 'heat',
+    view: 'brightness',
+    part: '',
+  },
+];
+
+
 /**
- * Функция для добавления стиля картинке
- * @param {number} v - данные полля ввода
+ * Функция для добавления эффекта картинке
+ * @param {number} number - данные полля ввода
+ * @param {array} list - массив эффектов
  */
-function addStylePicture(number) {
+function addStylePicture(number, list) {
   const inputChecked = effectsList.querySelector('input:checked');
-  if (inputChecked.id === 'effect-none') {
-    previewPhoto.style.filter = 'none';
-  } else if (inputChecked.id === 'effect-chrome') {
-    previewPhoto.style.filter = `grayscale(${number})`;
-
-  } else if (inputChecked.id === 'effect-sepia') {
-    previewPhoto.style.filter = `sepia(${number})`;
-
-  } else if (inputChecked.id === 'effect-marvin') {
-    previewPhoto.style.filter = `invert(${number}%)`;
-
-  } else if (inputChecked.id === 'effect-phobos') {
-    previewPhoto.style.filter = `blur(${number}px)`;
-
-  } else if (inputChecked.id === 'effect-heat') {
-    previewPhoto.style.filter = `brightness(${number})`;
-  }
+  list.forEach((item) => {
+    const {name, view, part} = item;
+    if (inputChecked.id === `effect-${name}`) {
+      previewPhoto.style.filter = `${view}(${number}${part})`;
+    }
+  });
 }
 
 function changeSliderEffect(evt) {
@@ -277,7 +301,7 @@ function onCloseKeydown(evt) {
 function addHandlersToForm() {
   sliderElement.noUiSlider.on('update', () => {
     valueElement.value = sliderElement.noUiSlider.get();
-    addStylePicture(sliderElement.noUiSlider.get());
+    addStylePicture(sliderElement.noUiSlider.get(), imageEffects);
   });
   effectsList.addEventListener('click', (evt) => {
     changeSliderEffect(evt);
