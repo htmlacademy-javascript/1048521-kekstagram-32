@@ -1,3 +1,7 @@
+const HASHTAG_LENGTH_MAX = 20;
+const HASHTAG_LENGTH_MIN = 2;
+const IMAGE_ZOOM_STEP = 25;
+const MAXIMUM_IMAGE_MAGNIFICATION = 100;
 const formImgUpload = document.querySelector('.img-upload__form');
 const imgUploadOverlay = formImgUpload.querySelector('.img-upload__overlay');
 const inputImgUpload = formImgUpload.querySelector('.img-upload__input');
@@ -11,8 +15,6 @@ const scaleControlValue = document.querySelector('.scale__control--value');
 const sliderElement = document.querySelector('.img-upload__effect-level');
 const valueElement = document.querySelector('.effect-level__value');
 const effectsList = document.querySelector('.effects__list');
-const HASHTAG_LENGTH_MAX = 20;
-const HASHTAG_LENGTH_MIN = 2;
 
 noUiSlider.create(sliderElement, {
   range: {
@@ -35,111 +37,116 @@ noUiSlider.create(sliderElement, {
   },
 });
 
+const imageEffects = [
+  {
+    name: 'chrome',
+    view: 'grayscale',
+    part: '',
+    minSlider: 0,
+    maxSlider: 1,
+    startSlider: 1,
+    stepSlider: 0.1,
+  },
+  {
+    name: 'sepia',
+    view: 'sepia',
+    part: '',
+    minSlider: 0,
+    maxSlider: 1,
+    startSlider: 1,
+    stepSlider: 0.1,
+  },
+  {
+    name: 'marvin',
+    view: 'invert',
+    part: '%',
+    minSlider: 0,
+    maxSlider: 100,
+    startSlider: 100,
+    stepSlider: 1,
+  },
+  {
+    name: 'phobos',
+    view: 'blur',
+    part: 'px',
+    minSlider: 0,
+    maxSlider: 3,
+    startSlider: 3,
+    stepSlider: 0.1,
+  },
+  {
+    name: 'heat',
+    view: 'brightness',
+    part: '',
+    minSlider: 1,
+    maxSlider: 3,
+    startSlider: 3,
+    stepSlider: 0.1,
+  },
+];
+
+
 /**
- * Функция для добавления стиля картинке
- * @param {number} v - данные полля ввода
+ * Функция для добавления эффекта картинке
+ * @param {number} number - данные полля ввода
+ * @param {array} list - массив эффектов
  */
-function addStylePicture(number) {
+function addStylePicture(number, list) {
   const inputChecked = effectsList.querySelector('input:checked');
   if (inputChecked.id === 'effect-none') {
     previewPhoto.style.filter = 'none';
-
-  } else if (inputChecked.id === 'effect-chrome') {
-    previewPhoto.style.filter = `grayscale(${number})`;
-
-  } else if (inputChecked.id === 'effect-sepia') {
-    previewPhoto.style.filter = `sepia(${number})`;
-
-  } else if (inputChecked.id === 'effect-marvin') {
-    previewPhoto.style.filter = `invert(${number}%)`;
-
-  } else if (inputChecked.id === 'effect-phobos') {
-    previewPhoto.style.filter = `blur(${number}px)`;
-
-  } else if (inputChecked.id === 'effect-heat') {
-    previewPhoto.style.filter = `brightness(${number})`;
   }
+  list.forEach((item) => {
+    const {name, view, part} = item;
+    if (inputChecked.id === `effect-${name}`) {
+      previewPhoto.style.filter = `${view}(${number}${part})`;
+    }
+  });
 }
 
 function changeSliderEffect(evt) {
   if (evt.target.id === 'effect-none') {
     sliderElement.classList.add('hidden');
-  } else if (evt.target.id === 'effect-chrome') {
-    sliderElement.classList.remove('hidden');
-    sliderElement.noUiSlider.updateOptions({
-      range: {
-        min: 0,
-        max: 1,
-      },
-      start: 0,
-      step: 0.1,
-    });
-
-  } else if (evt.target.id === 'effect-sepia') {
-    sliderElement.classList.remove('hidden');
-    sliderElement.noUiSlider.updateOptions({
-      range: {
-        min: 0,
-        max: 1,
-      },
-      start: 0,
-      step: 0.1,
-    });
-  } else if (evt.target.id === 'effect-marvin') {
-    sliderElement.classList.remove('hidden');
-    sliderElement.noUiSlider.updateOptions({
-      range: {
-        min: 0,
-        max: 100,
-      },
-      start: 0,
-      step: 1,
-    });
-
-  } else if (evt.target.id === 'effect-phobos') {
-    sliderElement.classList.remove('hidden');
-    sliderElement.noUiSlider.updateOptions({
-      range: {
-        min: 0,
-        max: 3,
-      },
-      start: 0,
-      step: 0.1,
-    });
-  } else if (evt.target.id === 'effect-heat') {
-    sliderElement.classList.remove('hidden');
-    sliderElement.noUiSlider.updateOptions({
-      range: {
-        min: 1,
-        max: 3,
-      },
-      start: 0,
-      step: 0.1,
-    });
+    sliderElement.noUiSlider.set(0);
   }
+  imageEffects.forEach((item) => {
+    const {name, minSlider, maxSlider, startSlider, stepSlider} = item;
+    if (evt.target.id === `effect-${name}`) {
+      sliderElement.classList.remove('hidden');
+      sliderElement.noUiSlider.updateOptions({
+        range: {
+          min: minSlider,
+          max: maxSlider,
+        },
+        start: startSlider,
+        step: stepSlider,
+      });
+    }
+  });
 }
+
 
 /**
  * Функция уменьшения масштаба загруженной картинки
  */
-function reduceImage() {
+function handlerDecreaseImage() {
   const valueSlice = +scaleControlValue.value.slice(0, -1);
-  if (valueSlice > 25) {
-    scaleControlValue.value = `${valueSlice - 25}%`;
-    previewPhoto.style.transform = `scale(${(valueSlice - 25) / 100})`;
+  if (valueSlice > IMAGE_ZOOM_STEP) {
+    scaleControlValue.value = `${valueSlice - IMAGE_ZOOM_STEP}%`;
+    previewPhoto.style.transform = `scale(${(valueSlice - IMAGE_ZOOM_STEP) / 100})`;
   }
 }
 
 /**
  * Функция увеличения масштаба загруженной картинки
  */
-function increaseImage() {
+function handlerIncreaseImage() {
   const valueSlice = +scaleControlValue.value.slice(0, -1);
-  if (valueSlice <= 75) {
-    scaleControlValue.value = `${+valueSlice + 25}%`;
-    previewPhoto.style.transform = `scale(${(valueSlice + 25) / 100})`;
+  if (valueSlice <= (MAXIMUM_IMAGE_MAGNIFICATION - IMAGE_ZOOM_STEP)) {
+    scaleControlValue.value = `${+valueSlice + IMAGE_ZOOM_STEP}%`;
+    previewPhoto.style.transform = `scale(${(valueSlice + IMAGE_ZOOM_STEP) / 100})`;
   }
-  if (valueSlice > 75) {
+  if (valueSlice > (MAXIMUM_IMAGE_MAGNIFICATION - IMAGE_ZOOM_STEP)) {
     previewPhoto.style.transform = 'scale(1)';
   }
 }
@@ -160,67 +167,73 @@ const splitHashtags = (str) => str
   .split(' ')
   .filter((hashtag) => hashtag.length > 0);
 
-function validateHashtags() {
-  /**
+/**
   * Функция для проверки длины введённого значения в поле хэштегов
   * @param {string} value -атрибут поля ввода
   * @returns {boolean} - true, меньше или равна 20
   */
-  function validateHashtagsLengthMax(value) {
-    return splitHashtags(value).every((tag) => tag.length <= HASHTAG_LENGTH_MAX);
-  }
-  pristine.addValidator(formImgUpload.querySelector('.text__hashtags'), validateHashtagsLengthMax, 'Максимальная длина одного хэштега должна быть не более 20 символов, включая решётку');
+function validateHashtagsLengthMax(value) {
+  return splitHashtags(value).every((tag) => tag.length <= HASHTAG_LENGTH_MAX);
+}
 
-  /**
+/**
   * Функция для проверки длины введённого значения в поле хэштегов
   * @param {string} value -атрибут поля ввода
   * @returns {boolean} - true, если длина строки больше или равна 2
   */
-  function validateHashtagsLengthMin(value) {
-    return splitHashtags(value).every((tag) => tag.length >= HASHTAG_LENGTH_MIN);
-  }
-  pristine.addValidator(formImgUpload.querySelector('.text__hashtags'), validateHashtagsLengthMin, 'Минимальная длина одного хэштега должна быть не меньше 2 символов, включая решётку');
+function validateHashtagsLengthMin(value) {
+  return splitHashtags(value).every((tag) => tag.length >= HASHTAG_LENGTH_MIN);
+}
 
-  /**
+/**
   * Функция для проверки первого символа хэштега
   * @param {string} value -атрибут поля ввода
   * @returns {boolean} - true, если хэштег начинается с символа # (решётка)
   */
-  function checkFirstCharacter (value) {
-    return splitHashtags(value).every((tag) => tag[0] === '#');
-  }
-  pristine.addValidator(formImgUpload.querySelector('.text__hashtags'), checkFirstCharacter, 'Хэштег должен начинаться с символа # (решётка)');
+function checkFirstCharacter (value) {
+  return splitHashtags(value).every((tag) => tag[0] === '#');
+}
 
-  /**
+/**
   * Функция для проверки соответствия хэштега шаблону
   * @param {string} value -атрибут поля ввода
   * @returns {boolean} - true, если хэштег соответствует шаблону
   */
-  function validateHashtag (value) {
-    const sampleHashtag = /^#[a-zа-яё0-9]{1,19}$/i;
-    return splitHashtags(value).every((tag) => sampleHashtag.test(tag));
-  }
-  pristine.addValidator(formImgUpload.querySelector('.text__hashtags'), validateHashtag, 'Строка не соответсвтует шаблону: должны быть первый символ #, далее цифры и буквы');
+function validateHashtag (value) {
+  const sampleHashtag = /^#[a-zа-яё0-9]{1,19}$/i;
+  return splitHashtags(value).every((tag) => sampleHashtag.test(tag));
+}
 
-  /**
+/**
   * Функция для проверки количества хэштегов
   * @param {string} value -атрибут поля ввода
   * @returns {boolean} - true, если количества хэштегов не более 5
   */
-  function checkNumberHashtags (value) {
-    return splitHashtags(value).length <= 5;
-  }
-  pristine.addValidator(formImgUpload.querySelector('.text__hashtags'), checkNumberHashtags, 'Нельзя указать больше пяти хэштегов');
+function checkNumberHashtags (value) {
+  return splitHashtags(value).length <= 5;
+}
 
-  /**
+/**
   * Функция для проверки уникальности хэштегов
   * @param {string} value -атрибут поля ввода
   * @returns {boolean} - true, если все хэштегои уникальны
   */
-  function checkUniquenessHashtags (value) {
-    const str = splitHashtags(value).map((elem) => elem.toLowerCase());
-    return str.length === new Set(str).size;
-  }
+function checkUniquenessHashtags (value) {
+  const str = splitHashtags(value).map((elem) => elem.toLowerCase());
+  return str.length === new Set(str).size;
+}
+
+function addValidatorToForm() {
+  pristine.addValidator(formImgUpload.querySelector('.text__hashtags'), validateHashtagsLengthMax, 'Максимальная длина одного хэштега должна быть не более 20 символов, включая решётку');
+
+  pristine.addValidator(formImgUpload.querySelector('.text__hashtags'), validateHashtagsLengthMin, 'Минимальная длина одного хэштега должна быть не меньше 2 символов, включая решётку');
+
+  pristine.addValidator(formImgUpload.querySelector('.text__hashtags'), checkFirstCharacter, 'Хэштег должен начинаться с символа # (решётка)');
+
+  pristine.addValidator(formImgUpload.querySelector('.text__hashtags'), validateHashtag, 'Строка не соответсвтует шаблону: должны быть первый символ #, далее цифры и буквы');
+
+  pristine.addValidator(formImgUpload.querySelector('.text__hashtags'), checkNumberHashtags, 'Нельзя указать больше пяти хэштегов');
+
   pristine.addValidator(formImgUpload.querySelector('.text__hashtags'), checkUniquenessHashtags, 'Один и тот же хэштег не может быть использован дважды');
 }
 
@@ -244,6 +257,10 @@ function onCloseForm() {
   imgUploadOverlay.classList.add('hidden');
   document.querySelector('body').classList.remove('modal-open');
   document.removeEventListener('keydown', onCloseKeydown);
+  sliderElement.noUiSlider.set(0);
+  scaleControlValue.value = '100%';
+  previewPhoto.style.transform = 'scale(1)';
+  document.querySelector('.effects__radio').checked = true;
 }
 
 /**
@@ -255,24 +272,28 @@ function onCloseKeydown(evt) {
       evt.preventDefault();
       imgUploadOverlay.classList.add('hidden');
       inputImgUpload.value = '';
+      sliderElement.noUiSlider.set(0);
+      scaleControlValue.value = '100%';
+      previewPhoto.style.transform = 'scale(1)';
+      document.querySelector('.effects__radio').checked = true;
     }
   }
 }
 
 
-function editImageForm() {
+function addHandlersToForm() {
   sliderElement.noUiSlider.on('update', () => {
     valueElement.value = sliderElement.noUiSlider.get();
-    addStylePicture(sliderElement.noUiSlider.get());
+    addStylePicture(sliderElement.noUiSlider.get(), imageEffects);
   });
   effectsList.addEventListener('click', (evt) => {
     changeSliderEffect(evt);
   });
 
-  buttonScaleControlSmaller.addEventListener('click', reduceImage);
-  buttonScaleControlBigger.addEventListener('click', increaseImage);
+  buttonScaleControlSmaller.addEventListener('click', handlerDecreaseImage);
+  buttonScaleControlBigger.addEventListener('click', handlerIncreaseImage);
 
-  validateHashtags();
+  addValidatorToForm();
 
   formImgUpload.addEventListener('submit', (evt) => {
     evt.preventDefault();
@@ -282,4 +303,4 @@ function editImageForm() {
   buttonUploadCancel.addEventListener('click', onCloseForm);
 }
 
-export {editImageForm};
+export {addHandlersToForm};
