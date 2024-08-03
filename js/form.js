@@ -239,6 +239,25 @@ const addValidatorToForm = () => {
   pristine.addValidator(formImgUpload.querySelector('.text__hashtags'), checkUniquenessHashtags, 'Один и тот же хэштег не может быть использован дважды');
 };
 
+
+/**
+ * Функция закрытия полномерного изображения по нажатию клавиши Esc
+ */
+const onCloseKeydown = (evt) => {
+  if (evt.key === 'Escape') {
+    if (evt.target !== inputHashtags && evt.target !== textareaDescription) {
+      evt.preventDefault();
+      imgUploadOverlay.classList.add('hidden');
+      inputImgUpload.value = '';
+      sliderElement.noUiSlider.set(0);
+      scaleControlValue.value = '100%';
+      previewPhoto.style.transform = 'scale(1)';
+      document.querySelector('.effects__radio').checked = true;
+      buttonUploadSubmit.disabled = false;
+    }
+  }
+};
+
 /**
  * Функция отрытия полномерного изображения
  */
@@ -266,23 +285,6 @@ const onCloseForm = () => {
   buttonUploadSubmit.disabled = false;
 };
 
-/**
- * Функция закрытия полномерного изображения по нажатию клавиши Esc
- */
-const onCloseKeydown = (evt) => {
-  if (evt.key === 'Escape') {
-    if (evt.target !== inputHashtags && evt.target !== textareaDescription) {
-      evt.preventDefault();
-      imgUploadOverlay.classList.add('hidden');
-      inputImgUpload.value = '';
-      sliderElement.noUiSlider.set(0);
-      scaleControlValue.value = '100%';
-      previewPhoto.style.transform = 'scale(1)';
-      document.querySelector('.effects__radio').checked = true;
-      buttonUploadSubmit.disabled = false;
-    }
-  }
-};
 
 /**
  * Функция добавления обработчиков событий на форму
