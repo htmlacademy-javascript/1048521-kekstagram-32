@@ -1,8 +1,10 @@
-import {generatePhotos} from './data.js';
 import {drawingPhotos} from './miniatures.js';
 import {addHandlersToForm} from './form.js';
 
-const photosData = generatePhotos(25);
-
-drawingPhotos(photosData);
 addHandlersToForm();
+
+fetch('https://32.javascript.htmlacademy.pro/kekstagram/data')
+  .then((response) => response.json())
+  .then((photos) => {
+    drawingPhotos(photos);
+  });
