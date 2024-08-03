@@ -1,4 +1,4 @@
-import {showError} from './util.js';
+import {showError, showSuccess} from './util.js';
 const HASHTAG_LENGTH_MAX = 20;
 const HASHTAG_LENGTH_MIN = 2;
 const IMAGE_ZOOM_STEP = 25;
@@ -285,12 +285,6 @@ function onCloseKeydown(evt) {
   }
 }
 
-// function onSubmitForm(s) {
-
-
-// }
-
-
 function addHandlersToForm() {
   sliderElement.noUiSlider.on('update', () => {
     valueElement.value = sliderElement.noUiSlider.get();
@@ -322,6 +316,7 @@ function addHandlersToForm() {
         .then((response) => {
           if (response.ok) {
             onCloseForm();
+            showSuccess('Изображение успешно загружено');
           } else {
             showError('Не удалось отправить форму. Попробуйте ещё раз');
           }

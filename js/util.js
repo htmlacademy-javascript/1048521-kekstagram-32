@@ -31,5 +31,18 @@ function showError(message) {
   }, ALERT_SHOW_TIME);
 }
 
+function showSuccess(message) {
+  const templateShowSuccessElement = document.querySelector('#success').content.querySelector('.success__inner');
+  const titleElement = templateShowSuccessElement.querySelector('.success__title');
+  const buttonElement = templateShowSuccessElement.querySelector('.success__button');
 
-export {showError, getRandomInteger, getElementFromArray};
+  titleElement.textContent = message;
+  document.body.append(templateShowSuccessElement);
+
+  buttonElement.addEventListener('click', () => {
+    templateShowSuccessElement.remove();
+  });
+}
+
+
+export {showSuccess, showError, getRandomInteger, getElementFromArray};
