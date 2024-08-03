@@ -42,6 +42,19 @@ function showSuccess(message) {
   buttonElement.addEventListener('click', () => {
     templateShowSuccessElement.remove();
   });
+
+  document.addEventListener('keydown', (evt) => {
+    if (evt.key === 'Escape') {
+      templateShowSuccessElement.remove();
+    }
+  });
+
+  document.addEventListener('click', (evt) => {
+    if (evt.target !== templateShowSuccessElement) {
+      templateShowSuccessElement.remove();
+    }
+  });
+
 }
 
 
