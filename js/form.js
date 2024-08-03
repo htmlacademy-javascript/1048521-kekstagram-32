@@ -1,3 +1,4 @@
+import {showError} from './util.js';
 const HASHTAG_LENGTH_MAX = 20;
 const HASHTAG_LENGTH_MIN = 2;
 const IMAGE_ZOOM_STEP = 25;
@@ -15,6 +16,8 @@ const scaleControlValue = document.querySelector('.scale__control--value');
 const sliderElement = document.querySelector('.img-upload__effect-level');
 const valueElement = document.querySelector('.effect-level__value');
 const effectsList = document.querySelector('.effects__list');
+const buttonUploadSubmit = formImgUpload.querySelector('.img-upload__submit');
+
 
 noUiSlider.create(sliderElement, {
   range: {
@@ -261,6 +264,7 @@ function onCloseForm() {
   scaleControlValue.value = '100%';
   previewPhoto.style.transform = 'scale(1)';
   document.querySelector('.effects__radio').checked = true;
+  buttonUploadSubmit.disabled = false;
 }
 
 /**
@@ -276,9 +280,15 @@ function onCloseKeydown(evt) {
       scaleControlValue.value = '100%';
       previewPhoto.style.transform = 'scale(1)';
       document.querySelector('.effects__radio').checked = true;
+      buttonUploadSubmit.disabled = false;
     }
   }
 }
+
+// function onSubmitForm(s) {
+
+
+// }
 
 
 function addHandlersToForm() {
@@ -297,7 +307,29 @@ function addHandlersToForm() {
 
   formImgUpload.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    pristine.validate();
+    buttonUploadSubmit.disabled = true;
+    const isValid = pristine.validate();
+    if (isValid) {
+      const formData = new FormData(evt.target);
+
+      fetch(
+        'https://32.javascript.htmlacademy.pro/kekstagram',
+        {
+          method: 'POST',
+          body: formData,
+        },
+      )
+        .then((response) => {
+          if (response.ok) {
+            onCloseForm();
+          } else {
+            showError('Не удалось отправить форму. Попробуйте ещё раз');
+          }
+        })
+        .catch(() => {
+          showError('Не удалось отправить форму. Попробуйте ещё раз');
+        });
+    }
   });
   inputImgUpload.addEventListener('change', openFullSizeImage);
   buttonUploadCancel.addEventListener('click', onCloseForm);

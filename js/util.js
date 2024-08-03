@@ -19,8 +19,11 @@ const getRandomInteger = (a, b) => {
  */
 const getElementFromArray = (elements) => elements[getRandomInteger(0, elements.length - 1)];
 
-function showError() {
+function showError(message) {
   const templateShowErrorElement = document.querySelector('#data-error').content.querySelector('.data-error');
+  const titleElement = templateShowErrorElement.querySelector('.data-error__title');
+
+  titleElement.textContent = message;
   document.body.append(templateShowErrorElement);
 
   setTimeout(() => {

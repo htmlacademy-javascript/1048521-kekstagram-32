@@ -10,7 +10,7 @@ const getData = () => {
       drawingPhotos(photos.slice(0, COUNT_RENDERED_PHOTOS));
     })
     .catch(() => {
-      showError();
+      showError('Не удалось загрузить данные');
     });
 };
 
