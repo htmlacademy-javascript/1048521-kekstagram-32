@@ -1,3 +1,4 @@
+const ALERT_SHOW_TIME = 5000;
 /**
  * Функция по получению случайного числа из диапазона
  * @param {number} a - нижняя граница
@@ -18,4 +19,14 @@ const getRandomInteger = (a, b) => {
  */
 const getElementFromArray = (elements) => elements[getRandomInteger(0, elements.length - 1)];
 
-export {getRandomInteger, getElementFromArray};
+function showError() {
+  const templateShowErrorElement = document.querySelector('#data-error').content.querySelector('.data-error');
+  document.body.append(templateShowErrorElement);
+
+  setTimeout(() => {
+    templateShowErrorElement.remove();
+  }, ALERT_SHOW_TIME);
+}
+
+
+export {showError, getRandomInteger, getElementFromArray};
