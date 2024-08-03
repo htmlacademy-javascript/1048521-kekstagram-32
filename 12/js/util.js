@@ -19,7 +19,11 @@ const getRandomInteger = (a, b) => {
  */
 const getElementFromArray = (elements) => elements[getRandomInteger(0, elements.length - 1)];
 
-function showError(message) {
+/**
+ * Функция показа сообщения в случае ошибки при отправке запроса с формы
+ * @param {string} message - данные изображения
+ */
+const showError = (message) => {
   const templateShowErrorElement = document.querySelector('#data-error').content.querySelector('.data-error');
   const titleElement = templateShowErrorElement.querySelector('.data-error__title');
 
@@ -29,9 +33,13 @@ function showError(message) {
   setTimeout(() => {
     templateShowErrorElement.remove();
   }, ALERT_SHOW_TIME);
-}
+};
 
-function showSuccess(message) {
+/**
+ * Функция показа сообщения об успешной отправке формы
+ * @param {string} message - данные изображения
+ */
+const showSuccess = (message) => {
   const templateShowSuccessElement = document.querySelector('#success').content.querySelector('.success__inner');
   const titleElement = templateShowSuccessElement.querySelector('.success__title');
   const buttonElement = templateShowSuccessElement.querySelector('.success__button');
@@ -55,7 +63,7 @@ function showSuccess(message) {
     }
   });
 
-}
+};
 
 
 export {showSuccess, showError, getRandomInteger, getElementFromArray};

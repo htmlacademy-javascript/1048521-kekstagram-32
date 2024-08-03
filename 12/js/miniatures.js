@@ -8,7 +8,7 @@ const fragmentWithPhotosElement = document.createDocumentFragment();
  * @param {object} data - данные изображения
  * @returns {array} - возвращает массив фотографий
  */
-function drawingPhotos(data) {
+const drawingPhotos = (data) => {
   data.forEach(({url, likes, comments, description}) => {
     const photoElement = templateUserImageElement.cloneNode(true);
     photoElement.querySelector('.picture__img').src = url;
@@ -22,6 +22,6 @@ function drawingPhotos(data) {
     fragmentWithPhotosElement.appendChild(photoElement);
   });
   containerWithPhotosElement.appendChild(fragmentWithPhotosElement);
-}
+};
 
 export {drawingPhotos};
