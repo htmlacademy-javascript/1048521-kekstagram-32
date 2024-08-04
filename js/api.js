@@ -1,4 +1,4 @@
-import {showError} from './util.js';
+import {showError, showSuccess} from './util.js';
 const COUNT_RENDERED_PHOTOS = 25;
 const BASE_URL = 'https://32.javascript.htmlacademy.pro/kekstagram/data';
 
@@ -17,4 +17,29 @@ const getData = (reject) => {
     });
 };
 
-export {getData};
+
+/**
+ * Функция отправки данных из формы на сервер
+ */
+const sentData = (formData, closeForm) => {
+  fetch(
+    'https://32.javascript.htmlacademy.pro/kekstagram',
+    {
+      method: 'POST',
+      body: formData,
+    },
+  )
+    .then((response) => {
+      if (response.ok) {
+        closeForm();
+        showSuccess('Изображение успешно загружено');
+      } else {
+        showError('Не удалось отправить форму. Попробуйте ещё раз');
+      }
+    })
+    .catch(() => {
+      showError('Не удалось отправить форму. Попробуйте ещё раз');
+    });
+};
+
+export {getData, sentData};

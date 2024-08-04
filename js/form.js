@@ -1,4 +1,4 @@
-import {showError, showSuccess} from './util.js';
+import {sentData} from './api.js';
 import {addStylePicture, changeSliderEffect, handlerDecreaseImage, handlerIncreaseImage, imageEffects, sliderElement, effectsList, previewPhoto, scaleControlValue} from './photo-process-form.js';
 const HASHTAG_LENGTH_MAX = 20;
 const HASHTAG_LENGTH_MIN = 2;
@@ -164,25 +164,7 @@ const addHandlersToForm = () => {
     const isValid = pristine.validate();
     if (isValid) {
       const formData = new FormData(evt.target);
-
-      fetch(
-        'https://32.javascript.htmlacademy.pro/kekstagram',
-        {
-          method: 'POST',
-          body: formData,
-        },
-      )
-        .then((response) => {
-          if (response.ok) {
-            onCloseForm();
-            showSuccess('Изображение успешно загружено');
-          } else {
-            showError('Не удалось отправить форму. Попробуйте ещё раз');
-          }
-        })
-        .catch(() => {
-          showError('Не удалось отправить форму. Попробуйте ещё раз');
-        });
+      sentData(formData, onCloseForm);
     }
   });
   inputImgUpload.addEventListener('change', openFullSizeImage);

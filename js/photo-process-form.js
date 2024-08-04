@@ -26,9 +26,12 @@ noUiSlider.create(sliderElement, {
   },
 });
 
-const imageEffects = [
-  {
-    name: 'chrome',
+const imageEffects = {
+  'none': {
+    view: 'none',
+    part: '',
+  },
+  'chrome': {
     view: 'grayscale',
     part: '',
     minSlider: 0,
@@ -36,8 +39,7 @@ const imageEffects = [
     startSlider: 1,
     stepSlider: 0.1,
   },
-  {
-    name: 'sepia',
+  'sepia': {
     view: 'sepia',
     part: '',
     minSlider: 0,
@@ -45,8 +47,7 @@ const imageEffects = [
     startSlider: 1,
     stepSlider: 0.1,
   },
-  {
-    name: 'marvin',
+  'marvin': {
     view: 'invert',
     part: '%',
     minSlider: 0,
@@ -54,8 +55,7 @@ const imageEffects = [
     startSlider: 100,
     stepSlider: 1,
   },
-  {
-    name: 'phobos',
+  'phobos': {
     view: 'blur',
     part: 'px',
     minSlider: 0,
@@ -63,8 +63,7 @@ const imageEffects = [
     startSlider: 3,
     stepSlider: 0.1,
   },
-  {
-    name: 'heat',
+  'heat': {
     view: 'brightness',
     part: '',
     minSlider: 1,
@@ -72,25 +71,20 @@ const imageEffects = [
     startSlider: 3,
     stepSlider: 0.1,
   },
-];
-
+};
 
 /**
  * Функция для добавления эффектов картинке
- * @param {number} number - данные полля ввода
- * @param {array} list - массив эффектов
+ * @param {number} filterValue - значение фильтра
+ * @param {array} effects - массив эффектов
  */
-const addStylePicture = (number, list) => {
+const addStylePicture = (filterValue, effects) => {
   const inputChecked = effectsList.querySelector('input:checked');
-  if (inputChecked.id === 'effect-none') {
+  const effect = effects[inputChecked.value];
+  if (effect.view === 'none') {
     previewPhoto.style.filter = 'none';
   }
-  list.forEach((item) => {
-    const {name, view, part} = item;
-    if (inputChecked.id === `effect-${name}`) {
-      previewPhoto.style.filter = `${view}(${number}${part})`;
-    }
-  });
+  previewPhoto.style.filter = `${effect.view}(${filterValue}${effect.part})`;
 };
 
 /**
@@ -98,24 +92,21 @@ const addStylePicture = (number, list) => {
  * @param {object} evt - данные изображения
  */
 const changeSliderEffect = (evt) => {
-  if (evt.target.id === 'effect-none') {
-    sliderElement.classList.add('hidden');
+  const effect = imageEffects[evt.target.id.slice(7)];
+  if (effect.view === 'none') {
     sliderElement.noUiSlider.set(0);
+    sliderElement.classList.add('hidden');
+  } else {
+    sliderElement.classList.remove('hidden');
+    sliderElement.noUiSlider.updateOptions({
+      range: {
+        min: effect.minSlider,
+        max: effect.maxSlider,
+      },
+      start: effect.startSlider,
+      step: effect.stepSlider,
+    });
   }
-  imageEffects.forEach((item) => {
-    const {name, minSlider, maxSlider, startSlider, stepSlider} = item;
-    if (evt.target.id === `effect-${name}`) {
-      sliderElement.classList.remove('hidden');
-      sliderElement.noUiSlider.updateOptions({
-        range: {
-          min: minSlider,
-          max: maxSlider,
-        },
-        start: startSlider,
-        step: stepSlider,
-      });
-    }
-  });
 };
 
 
