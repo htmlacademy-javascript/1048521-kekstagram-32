@@ -1,5 +1,5 @@
 import {sentData} from './api.js';
-import {addStylePicture, changeSliderEffect, handlerDecreaseImage, handlerIncreaseImage, imageEffects, sliderElement, effectsList, previewPhoto, scaleControlValue} from './photo-process-form.js';
+import {addStylePicture, changeSliderEffect, onDecreaseImage, onIncreaseImage, imageEffects, sliderElement, effectsList, previewPhoto, scaleControlValue} from './photo-process-form.js';
 const HASHTAG_LENGTH_MAX = 20;
 const HASHTAG_LENGTH_MIN = 2;
 const formImgUpload = document.querySelector('.img-upload__form');
@@ -116,7 +116,7 @@ const onCloseKeydown = (evt) => {
 /**
  * Функция отрытия полномерного изображения
  */
-const openFullSizeImage = () => {
+const onOpenFullSizeImage = () => {
   previewPhoto.src = URL.createObjectURL(inputImgUpload.files[0]);
   imgUploadOverlay.classList.remove('hidden');
   document.querySelector('body').classList.add('modal-open');
@@ -153,8 +153,8 @@ const addHandlersToForm = () => {
     changeSliderEffect(evt);
   });
 
-  buttonScaleControlSmaller.addEventListener('click', handlerDecreaseImage);
-  buttonScaleControlBigger.addEventListener('click', handlerIncreaseImage);
+  buttonScaleControlSmaller.addEventListener('click', onDecreaseImage);
+  buttonScaleControlBigger.addEventListener('click', onIncreaseImage);
 
   addValidatorToForm();
 
@@ -167,7 +167,7 @@ const addHandlersToForm = () => {
       sentData(formData, onCloseForm);
     }
   });
-  inputImgUpload.addEventListener('change', openFullSizeImage);
+  inputImgUpload.addEventListener('change', onOpenFullSizeImage);
   buttonUploadCancel.addEventListener('click', onCloseForm);
 };
 

@@ -113,7 +113,7 @@ const changeSliderEffect = (evt) => {
 /**
  * Функция уменьшения масштаба загруженной картинки
  */
-const handlerDecreaseImage = () => {
+const onDecreaseImage = () => {
   const valueSlice = +scaleControlValue.value.slice(0, -1);
   if (valueSlice > IMAGE_ZOOM_STEP) {
     scaleControlValue.value = `${valueSlice - IMAGE_ZOOM_STEP}%`;
@@ -124,7 +124,7 @@ const handlerDecreaseImage = () => {
 /**
  * Функция увеличения масштаба загруженной картинки
  */
-const handlerIncreaseImage = () => {
+const onIncreaseImage = () => {
   const valueSlice = +scaleControlValue.value.slice(0, -1);
   if (valueSlice <= (MAXIMUM_IMAGE_MAGNIFICATION - IMAGE_ZOOM_STEP)) {
     scaleControlValue.value = `${+valueSlice + IMAGE_ZOOM_STEP}%`;
@@ -135,4 +135,4 @@ const handlerIncreaseImage = () => {
   }
 };
 
-export {addStylePicture, changeSliderEffect, handlerDecreaseImage, handlerIncreaseImage, imageEffects, sliderElement, effectsList, previewPhoto, scaleControlValue};
+export {addStylePicture, changeSliderEffect, onDecreaseImage, onIncreaseImage, imageEffects, sliderElement, effectsList, previewPhoto, scaleControlValue};
