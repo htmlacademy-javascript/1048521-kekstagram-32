@@ -160,7 +160,6 @@ const addHandlersToForm = () => {
 
   formImgUpload.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    buttonUploadSubmit.disabled = true;
     const isValid = pristine.validate();
     if (isValid) {
       const formData = new FormData(evt.target);

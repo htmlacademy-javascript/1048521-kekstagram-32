@@ -1,29 +1,28 @@
-import {showError, showSuccess} from './util.js';
+import {showErrorData, showSuccess, showErrorForm} from './util.js';
 const COUNT_RENDERED_PHOTOS = 25;
-const BASE_URL = 'https://32.javascript.htmlacademy.pro/kekstagram/data';
+const BASE_URL_DATA = 'https://32.javascript.htmlacademy.pro/kekstagram/data';
+const BASE_URL_FORM = 'https://32.javascript.htmlacademy.pro/kekstagram';
 
 /**
  * Функция запроса данных с сервера
  * @returns {array} - возвращает массив данных
  */
 const getData = (reject) => {
-  fetch(BASE_URL)
+  fetch(BASE_URL_DATA)
     .then((response) => response.json())
     .then((photos) => {
       reject(photos.slice(0, COUNT_RENDERED_PHOTOS));
     })
     .catch(() => {
-      showError('Не удалось загрузить данные');
+      showErrorData('Не удалось загрузить данные');
     });
 };
-
 
 /**
  * Функция отправки данных из формы на сервер
  */
 const sentData = (formData, closeForm) => {
-  fetch(
-    'https://32.javascript.htmlacademy.pro/kekstagram',
+  fetch(BASE_URL_FORM,
     {
       method: 'POST',
       body: formData,
@@ -34,11 +33,8 @@ const sentData = (formData, closeForm) => {
         closeForm();
         showSuccess('Изображение успешно загружено');
       } else {
-        showError('Не удалось отправить форму. Попробуйте ещё раз');
+        showErrorForm('Ошибка загрузки файла');
       }
-    })
-    .catch(() => {
-      showError('Не удалось отправить форму. Попробуйте ещё раз');
     });
 };
 

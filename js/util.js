@@ -1,4 +1,5 @@
 const ALERT_SHOW_TIME = 5000;
+
 /**
  * Функция по получению случайного числа из диапазона
  * @param {number} a - нижняя граница
@@ -20,10 +21,10 @@ const getRandomInteger = (a, b) => {
 const getElementFromArray = (elements) => elements[getRandomInteger(0, elements.length - 1)];
 
 /**
- * Функция показа сообщения в случае ошибки при отправке запроса с формы
+ * Функция показа сообщения в случае ошибки при загрузке данных с сервера
  * @param {string} message - данные изображения
  */
-const showError = (message) => {
+const showErrorData = (message) => {
   const templateShowErrorElement = document.querySelector('#data-error').content.querySelector('.data-error');
   const titleElement = templateShowErrorElement.querySelector('.data-error__title');
 
@@ -33,6 +34,35 @@ const showError = (message) => {
   setTimeout(() => {
     templateShowErrorElement.remove();
   }, ALERT_SHOW_TIME);
+};
+
+/**
+ * Функция показа сообщения в случае ошибки при загрузке данных с сервера
+ * @param {string} message - данные изображения
+ */
+const showErrorForm = (message) => {
+  const templateShowErrorElement = document.querySelector('#error').content.querySelector('.error');
+  const errorElement = templateShowErrorElement.cloneNode(true);
+  const titleElement = errorElement.querySelector('.error__title');
+  titleElement.textContent = message;
+  document.body.appendChild(errorElement);
+
+  const buttonElement = errorElement.querySelector('.error__button');
+  buttonElement.addEventListener('click', () => {
+    errorElement.classList.add('hidden');
+  });
+  document.addEventListener('click', (evt) => {
+    if (evt.target === errorElement) {
+      errorElement.classList.add('hidden');
+    }
+  });
+  document.removeEventListener('keydown', (evt) => {
+    if (evt.key === 'Escape') {
+      errorElement.classList.add('hidden');
+    }
+  });
+
+  errorElement.classList.remove('hidden');
 };
 
 /**
@@ -66,4 +96,4 @@ const showSuccess = (message) => {
 };
 
 
-export {showSuccess, showError, getRandomInteger, getElementFromArray};
+export {showSuccess, showErrorData, showErrorForm, getRandomInteger, getElementFromArray};
