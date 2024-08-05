@@ -1,8 +1,6 @@
-import {generatePhotos} from './data.js';
-import {drawingPhotos} from './miniatures.js';
+import {getData} from './api.js';
 import {addHandlersToForm} from './form.js';
+import {drawingPhotos} from './miniatures.js';
 
-const photosData = generatePhotos(25);
-
-drawingPhotos(photosData);
 addHandlersToForm();
+getData(drawingPhotos);

@@ -16,7 +16,7 @@ const NUMBER_COMMENTS = 5;
  */
 let currentIndex = 0;
 const displayedComments = [];
-function handlerCommentsPhoto(comments) {
+const commentsPhoto = (comments) => {
   socialComments.innerHTML = '';
   const commentsToShow = comments.slice(currentIndex, currentIndex + NUMBER_COMMENTS);
   displayedComments.push(...commentsToShow);
@@ -37,14 +37,14 @@ function handlerCommentsPhoto(comments) {
   if (currentIndex === comments.length) {
     socialCommentsLoader.classList.add('hidden');
   }
-}
+};
 
 /**
  * Функция создания и  открытия полномерного изображения
  * @param {object} - данные изображения
  * @returns {*} - возвращает отрисованую большую фотографию с комментариями
  */
-function renderFullSizeImage({url, likes, comments, description}) {
+const renderFullSizeImage = ({url, likes, comments, description}) => {
   srcBigPhoto.src = url;
   socialCaption.textContent = description;
   likesCount.textContent = likes;
@@ -61,23 +61,25 @@ function renderFullSizeImage({url, likes, comments, description}) {
   bigPicture.classList.remove('hidden');
   document.querySelector('body').classList.add('modal-open');
 
-  handlerCommentsPhoto(comments);
+  commentsPhoto(comments);
 
   socialCommentsLoader.addEventListener('click', () => {
-    handlerCommentsPhoto(comments);
+    commentsPhoto(comments);
   });
 
-}
+};
 
 /**
  * Функция закрытия полномерного изображения
  */
-function closeLargePhoto() {
+const onCloseLargePhoto = () => {
   bigPicture.classList.add('hidden');
   document.querySelector('body').classList.remove('modal-open');
-  socialCommentsLoader.removeEventListener('click', handlerCommentsPhoto);
-}
-buttonBigPictureCancel.addEventListener('click', closeLargePhoto);
+  socialCommentsLoader.removeEventListener('click', () => {
+    commentsPhoto();
+  });
+};
+buttonBigPictureCancel.addEventListener('click', onCloseLargePhoto);
 
 /**
  * Функция закрытия полномерного изображения по нажатию клавиши Esc
@@ -86,7 +88,9 @@ document.addEventListener('keydown', (evt) => {
   if (evt.key === 'Escape') {
     evt.preventDefault();
     bigPicture.classList.add('hidden');
-    socialCommentsLoader.removeEventListener('click', handlerCommentsPhoto);
+    socialCommentsLoader.removeEventListener('click', () => {
+      commentsPhoto();
+    });
   }
 });
 
