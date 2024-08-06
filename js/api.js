@@ -1,9 +1,9 @@
-import {showErrorData, showSuccess, showErrorForm, debounce} from './util.js';
+import {showErrorData, showSuccess, showErrorForm} from './util.js';
 import {setDefaultClick, setRandomClick, setDiscussedClick} from './photo-filters.js';
 import {drawingPhotos} from './miniatures.js';
 const BASE_URL_DATA = 'https://32.javascript.htmlacademy.pro/kekstagram/data';
 const BASE_URL_FORM = 'https://32.javascript.htmlacademy.pro/kekstagram';
-const RERENDER_DELAY = 500;
+// const RERENDER_DELAY = 500;
 let photosSave = [];
 
 /**
