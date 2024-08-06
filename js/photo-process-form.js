@@ -27,11 +27,11 @@ noUiSlider.create(sliderElement, {
 });
 
 const imageEffects = {
-  'none': {
+  none: {
     view: 'none',
     part: '',
   },
-  'chrome': {
+  chrome: {
     view: 'grayscale',
     part: '',
     minSlider: 0,
@@ -39,7 +39,7 @@ const imageEffects = {
     startSlider: 1,
     stepSlider: 0.1,
   },
-  'sepia': {
+  sepia: {
     view: 'sepia',
     part: '',
     minSlider: 0,
@@ -47,7 +47,7 @@ const imageEffects = {
     startSlider: 1,
     stepSlider: 0.1,
   },
-  'marvin': {
+  marvin: {
     view: 'invert',
     part: '%',
     minSlider: 0,
@@ -55,7 +55,7 @@ const imageEffects = {
     startSlider: 100,
     stepSlider: 1,
   },
-  'phobos': {
+  phobos: {
     view: 'blur',
     part: 'px',
     minSlider: 0,
@@ -63,7 +63,7 @@ const imageEffects = {
     startSlider: 3,
     stepSlider: 0.1,
   },
-  'heat': {
+  heat: {
     view: 'brightness',
     part: '',
     minSlider: 1,
