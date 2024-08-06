@@ -9,6 +9,7 @@ const fragmentWithPhotosElement = document.createDocumentFragment();
  * @returns {array} - возвращает массив фотографий
  */
 const drawingPhotos = (data) => {
+  containerWithPhotosElement.innerHTML = '';
   data.forEach(({url, likes, comments, description}) => {
     const photoElement = templateUserImageElement.cloneNode(true);
     photoElement.querySelector('.picture__img').src = url;
@@ -21,6 +22,7 @@ const drawingPhotos = (data) => {
     });
     fragmentWithPhotosElement.appendChild(photoElement);
   });
+  fragmentWithPhotosElement.innerHTML = '';
   containerWithPhotosElement.appendChild(fragmentWithPhotosElement);
 };
 
