@@ -92,8 +92,19 @@ const showSuccess = (message) => {
       templateShowSuccessElement.remove();
     }
   });
-
 };
 
+/**
+ * Функция зажержки отрисовки
+ * @param {function} callback - функция данных с сервера
+ * @returns {number} timeoutDelay - время отображения
+ */
+const debounce = (callback, timeoutDelay) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
 
-export {showSuccess, showErrorData, showErrorForm, getRandomInteger, getElementFromArray};
+export {showSuccess, showErrorData, showErrorForm, getRandomInteger, getElementFromArray, debounce};

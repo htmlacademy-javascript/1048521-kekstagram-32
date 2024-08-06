@@ -22,7 +22,6 @@ const drawingPhotos = (data) => {
     });
     fragmentWithPhotosElement.appendChild(photoElement);
   });
-  fragmentWithPhotosElement.innerHTML = '';
   containerWithPhotosElement.appendChild(fragmentWithPhotosElement);
 };
 

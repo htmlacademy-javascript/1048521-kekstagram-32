@@ -56,7 +56,6 @@ const setRandomClick = (photos, cb) => {
     filterRandom.classList.toggle('img-filters__button--active');
     filterDefault.classList.remove('img-filters__button--active');
     filterDiscussed.classList.remove('img-filters__button--active');
-    // console.log(getRandomPhotos(photos));
     cb(getRandomPhotos(photos));
   });
 };
