@@ -18,9 +18,12 @@ const getData = () => {
       photosSave = photos;
       drawingPhotos(photosSave);
       imgFilters.classList.remove('img-filters--inactive');
-      setDefaultClick(photosSave, debounce(() => drawingPhotos(photos), RERENDER_DELAY));
-      setRandomClick(photos, debounce(() => drawingPhotos(photos), RERENDER_DELAY));
-      setDiscussedClick(photos, debounce(() => drawingPhotos(photos), RERENDER_DELAY));
+      setDefaultClick(photosSave, drawingPhotos);
+      setRandomClick(photos, drawingPhotos);
+      setDiscussedClick(photos, drawingPhotos);
+      // setDefaultClick(photosSave, debounce(() => drawingPhotos, RERENDER_DELAY));
+      // setRandomClick(photos, debounce(() => drawingPhotos, RERENDER_DELAY));
+      // setDiscussedClick(photos, debounce(() => drawingPhotos, RERENDER_DELAY));
     })
     .catch(() => {
       showErrorData('Не удалось загрузить данные');

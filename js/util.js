@@ -97,7 +97,7 @@ const showSuccess = (message) => {
 /**
  * Функция зажержки отрисовки
  * @param {function} callback - функция данных с сервера
- * @returns {number} timeoutDelay - время отображения
+ * @param {number} timeoutDelay - время отрисовки
  */
 const debounce = (callback, timeoutDelay) => {
   let timeoutId;

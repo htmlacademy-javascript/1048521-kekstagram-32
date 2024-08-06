@@ -2,14 +2,12 @@ const COUNT_RENDERED_PHOTOS = 25;
 const filterDefault = document.querySelector('#filter-default');
 const filterDiscussed = document.querySelector('#filter-discussed');
 const filterRandom = document.querySelector('#filter-random');
-
 /**
  * Функция извлекает количесвто комментариев каждой фотографии
  * @param {array} photos - массив объектов данных изображения
  * @returns {number} - возвращает количество комментариев каждой фотографии
  */
 const getRankPhotos = (photos) => photos.comments.length;
-
 /**
  * Функция сортировки данных в случайном порядке
  * @param {array} photos - массив объектов данных изображения
@@ -19,7 +17,6 @@ const getRandomPhotos = (photos) => {
   const photosRandom = photos.slice().sort(() => 0.5 - Math.random());
   return photosRandom.slice(0, 10);
 };
-
 /**
  * Функция сортировки изображений по количеству комментариев
  * @param {number} photoA - количесвто комментариев в 1ом изображении
@@ -31,7 +28,6 @@ const comparePhotos = (photoA, photoB) => {
   const rankB = getRankPhotos(photoB);
   return rankB - rankA;
 };
-
 /**
  * Функция для добавления события на клик
  * @param {object} photos - данные изображения
@@ -45,7 +41,6 @@ const setDefaultClick = (photos, cb) => {
     cb(photos.slice(0, COUNT_RENDERED_PHOTOS));
   });
 };
-
 /**
  * Функция для добавления события на клик
  * @param {object} photos - данные изображения
@@ -59,7 +54,6 @@ const setRandomClick = (photos, cb) => {
     cb(getRandomPhotos(photos));
   });
 };
-
 /**
  * Функция для добавления события на клик
  * @param {object} photos - данные изображения
@@ -73,5 +67,4 @@ const setDiscussedClick = (photos, cb) => {
     cb(photos.slice().sort(comparePhotos));
   });
 };
-
 export {setDefaultClick, setRandomClick, setDiscussedClick};

@@ -1,8 +1,8 @@
 import {renderFullSizeImage} from './large-picture.js';
 const templateUserImageElement = document.querySelector('#picture').content.querySelector('.picture');
 const containerWithPhotosElement = document.querySelector('.pictures');
-const fragmentWithPhotosElement = document.createDocumentFragment();
-
+const imgUpload = containerWithPhotosElement.querySelector('.img-upload');
+// const fragmentWithPhotosElement = document.createDocumentFragment();
 /**
  * Функция отрисовки фотографий на странице
  * @param {object} data - данные изображения
@@ -10,6 +10,7 @@ const fragmentWithPhotosElement = document.createDocumentFragment();
  */
 const drawingPhotos = (data) => {
   containerWithPhotosElement.innerHTML = '';
+  const fragmentWithPhotosElement = document.createDocumentFragment();
   data.forEach(({url, likes, comments, description}) => {
     const photoElement = templateUserImageElement.cloneNode(true);
     photoElement.querySelector('.picture__img').src = url;
@@ -20,6 +21,7 @@ const drawingPhotos = (data) => {
       evt.preventDefault();
       renderFullSizeImage({url, likes, comments, description});
     });
+    containerWithPhotosElement.appendChild(imgUpload);
     fragmentWithPhotosElement.appendChild(photoElement);
   });
   containerWithPhotosElement.appendChild(fragmentWithPhotosElement);
