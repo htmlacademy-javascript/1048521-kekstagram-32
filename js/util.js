@@ -1,3 +1,4 @@
+import {onCloseKeydown} from './form.js';
 const ALERT_SHOW_TIME = 5000;
 
 /**
@@ -56,12 +57,13 @@ const showErrorForm = (message) => {
       errorElement.classList.add('hidden');
     }
   });
-  document.removeEventListener('keydown', (evt) => {
+  document.addEventListener('keydown', (evt) => {
     if (evt.key === 'Escape') {
       errorElement.classList.add('hidden');
+      document.addEventListener('keydown', onCloseKeydown);
     }
   });
-
+  document.removeEventListener('keydown', onCloseKeydown);
   errorElement.classList.remove('hidden');
 };
 

@@ -170,4 +170,4 @@ const addHandlersToForm = () => {
   buttonUploadCancel.addEventListener('click', onCloseForm);
 };
 
-export {addHandlersToForm};
+export {addHandlersToForm, onCloseKeydown};
