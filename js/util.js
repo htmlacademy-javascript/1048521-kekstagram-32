@@ -70,7 +70,8 @@ const showErrorForm = (message) => {
  * @param {string} message - данные изображения
  */
 const showSuccess = (message) => {
-  const templateShowSuccessElement = document.querySelector('#success').content.querySelector('.success__inner');
+  const templateShowSuccessElement = document.querySelector('#success').content.querySelector('.success');
+
   const titleElement = templateShowSuccessElement.querySelector('.success__title');
   const buttonElement = templateShowSuccessElement.querySelector('.success__button');
 
