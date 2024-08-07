@@ -2,7 +2,6 @@ import {renderFullSizeImage} from './large-picture.js';
 const templateUserImageElement = document.querySelector('#picture').content.querySelector('.picture');
 const containerWithPhotosElement = document.querySelector('.pictures');
 const imgUpload = containerWithPhotosElement.querySelector('.img-upload');
-// const fragmentWithPhotosElement = document.createDocumentFragment();
 /**
  * Функция отрисовки фотографий на странице
  * @param {object} data - данные изображения
