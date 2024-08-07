@@ -1,3 +1,4 @@
+import {onCloseKeydown} from './form.js';
 const ALERT_SHOW_TIME = 5000;
 
 /**
@@ -56,12 +57,13 @@ const showErrorForm = (message) => {
       errorElement.classList.add('hidden');
     }
   });
-  document.removeEventListener('keydown', (evt) => {
+  document.addEventListener('keydown', (evt) => {
     if (evt.key === 'Escape') {
       errorElement.classList.add('hidden');
+      document.addEventListener('keydown', onCloseKeydown);
     }
   });
-
+  document.removeEventListener('keydown', onCloseKeydown);
   errorElement.classList.remove('hidden');
 };
 
@@ -70,7 +72,8 @@ const showErrorForm = (message) => {
  * @param {string} message - данные изображения
  */
 const showSuccess = (message) => {
-  const templateShowSuccessElement = document.querySelector('#success').content.querySelector('.success__inner');
+  const templateShowSuccessElement = document.querySelector('#success').content.querySelector('.success');
+
   const titleElement = templateShowSuccessElement.querySelector('.success__title');
   const buttonElement = templateShowSuccessElement.querySelector('.success__button');
 
@@ -97,7 +100,7 @@ const showSuccess = (message) => {
 /**
  * Функция зажержки отрисовки
  * @param {function} callback - функция данных с сервера
- * @returns {number} timeoutDelay - время отображения
+ * @param {number} timeoutDelay - время отрисовки
  */
 const debounce = (callback, timeoutDelay) => {
   let timeoutId;
