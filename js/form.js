@@ -118,6 +118,9 @@ const onCloseKeydown = (evt) => {
  */
 const onOpenFullSizeImage = () => {
   previewPhoto.src = URL.createObjectURL(inputImgUpload.files[0]);
+  formImgUpload.querySelectorAll('.effects__preview').forEach((preview) => {
+    preview.style.backgroundImage = `url(${previewPhoto.src})`;
+  });
   imgUploadOverlay.classList.remove('hidden');
   document.querySelector('body').classList.add('modal-open');
   document.addEventListener('keydown', onCloseKeydown);

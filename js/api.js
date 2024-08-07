@@ -18,9 +18,6 @@ const getData = () => {
       drawingPhotos(photosSave);
       imgFilters.classList.remove('img-filters--inactive');
       setClick(photosSave, drawingPhotos);
-      // setDefaultClick(photosSave, drawingPhotos);
-      // setRandomClick(photos, drawingPhotos);
-      // setDiscussedClick(photos, drawingPhotos);
     })
     .catch(() => {
       showErrorData('Не удалось загрузить данные');
