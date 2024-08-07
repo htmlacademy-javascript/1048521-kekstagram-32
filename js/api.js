@@ -1,9 +1,8 @@
 import {showErrorData, showSuccess, showErrorForm} from './util.js';
-import {setDefaultClick, setRandomClick, setDiscussedClick} from './photo-filters.js';
+import {setClick} from './photo-filters.js';
 import {drawingPhotos} from './miniatures.js';
 const BASE_URL_DATA = 'https://32.javascript.htmlacademy.pro/kekstagram/data';
-const BASE_URL_FORM = 'https://32.javascript.htmlacademy.pro/kekstagra';
-// const RERENDER_DELAY = 500;
+const BASE_URL_FORM = 'https://32.javascript.htmlacademy.pro/kekstagram';
 let photosSave = [];
 
 /**
@@ -18,9 +17,10 @@ const getData = () => {
       photosSave = photos;
       drawingPhotos(photosSave);
       imgFilters.classList.remove('img-filters--inactive');
-      setDefaultClick(photosSave, drawingPhotos);
-      setRandomClick(photos, drawingPhotos);
-      setDiscussedClick(photos, drawingPhotos);
+      setClick(photosSave, drawingPhotos);
+      // setDefaultClick(photosSave, drawingPhotos);
+      // setRandomClick(photos, drawingPhotos);
+      // setDiscussedClick(photos, drawingPhotos);
     })
     .catch(() => {
       showErrorData('Не удалось загрузить данные');
