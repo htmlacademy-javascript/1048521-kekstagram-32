@@ -1,5 +1,5 @@
 import {sentData} from './api.js';
-import {addStylePicture, changeSliderEffect, onDecreaseImage, onIncreaseImage, imageEffects, sliderElement, effectsList, previewPhoto, scaleControlValue} from './photo-process-form.js';
+import {addStylePicture, onChangeSliderEffect, onDecreaseImage, onIncreaseImage, imageEffects, sliderElement, effectsList, previewPhoto, scaleControlValue} from './photo-process-form.js';
 const HASHTAG_LENGTH_MAX = 20;
 const HASHTAG_LENGTH_MIN = 2;
 const formImgUpload = document.querySelector('.img-upload__form');
@@ -152,9 +152,7 @@ const addHandlersToForm = () => {
     valueElement.value = sliderElement.noUiSlider.get();
     addStylePicture(sliderElement.noUiSlider.get(), imageEffects);
   });
-  effectsList.addEventListener('click', (evt) => {
-    changeSliderEffect(evt);
-  });
+  effectsList.addEventListener('change', onChangeSliderEffect);
 
   buttonScaleControlSmaller.addEventListener('click', onDecreaseImage);
   buttonScaleControlBigger.addEventListener('click', onIncreaseImage);
