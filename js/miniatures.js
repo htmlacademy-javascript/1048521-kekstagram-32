@@ -12,10 +12,11 @@ const drawingPhotos = (data) => {
   const fragmentWithPhotosElement = document.createDocumentFragment();
   data.forEach(({url, likes, comments, description}) => {
     const photoElement = templateUserImageElement.cloneNode(true);
-    photoElement.querySelector('.picture__img').src = url;
+    const photoElementImg = photoElement.querySelector('.picture__img');
+    photoElementImg.src = url;
+    photoElementImg.alt = description;
     photoElement.querySelector('.picture__comments').textContent = comments.length;
     photoElement.querySelector('.picture__likes').textContent = likes;
-    photoElement.querySelector('.picture__img').alt = description;
     photoElement.addEventListener('click', (evt) => {
       evt.preventDefault();
       renderFullSizeImage({url, likes, comments, description});
