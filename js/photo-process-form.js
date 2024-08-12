@@ -91,8 +91,8 @@ const addStylePicture = (filterValue, effects) => {
  * Функция добавления слайдера на каждый эффект картинки
  * @param {object} evt - данные изображения
  */
-const changeSliderEffect = (evt) => {
-  const effect = imageEffects[evt.target.id.slice(7)];
+const onChangeSliderEffect = (evt) => {
+  const effect = imageEffects[(evt.target.id.split('-'))[1]];
   if (effect.view === 'none') {
     sliderElement.noUiSlider.set(0);
     sliderElement.classList.add('hidden');
@@ -135,4 +135,4 @@ const onIncreaseImage = () => {
   }
 };
 
-export {addStylePicture, changeSliderEffect, onDecreaseImage, onIncreaseImage, imageEffects, sliderElement, effectsList, previewPhoto, scaleControlValue};
+export {addStylePicture, onChangeSliderEffect, onDecreaseImage, onIncreaseImage, imageEffects, sliderElement, effectsList, previewPhoto, scaleControlValue};

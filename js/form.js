@@ -1,5 +1,5 @@
 import {sentData} from './api.js';
-import {addStylePicture, changeSliderEffect, onDecreaseImage, onIncreaseImage, imageEffects, sliderElement, effectsList, previewPhoto, scaleControlValue} from './photo-process-form.js';
+import {addStylePicture, onChangeSliderEffect, onDecreaseImage, onIncreaseImage, imageEffects, sliderElement, effectsList, previewPhoto, scaleControlValue} from './photo-process-form.js';
 const HASHTAG_LENGTH_MAX = 20;
 const HASHTAG_LENGTH_MIN = 2;
 const formImgUpload = document.querySelector('.img-upload__form');
@@ -118,6 +118,9 @@ const onCloseKeydown = (evt) => {
  */
 const onOpenFullSizeImage = () => {
   previewPhoto.src = URL.createObjectURL(inputImgUpload.files[0]);
+  formImgUpload.querySelectorAll('.effects__preview').forEach((preview) => {
+    preview.style.backgroundImage = `url(${previewPhoto.src})`;
+  });
   imgUploadOverlay.classList.remove('hidden');
   document.querySelector('body').classList.add('modal-open');
   document.addEventListener('keydown', onCloseKeydown);
@@ -149,9 +152,7 @@ const addHandlersToForm = () => {
     valueElement.value = sliderElement.noUiSlider.get();
     addStylePicture(sliderElement.noUiSlider.get(), imageEffects);
   });
-  effectsList.addEventListener('click', (evt) => {
-    changeSliderEffect(evt);
-  });
+  effectsList.addEventListener('change', onChangeSliderEffect);
 
   buttonScaleControlSmaller.addEventListener('click', onDecreaseImage);
   buttonScaleControlBigger.addEventListener('click', onIncreaseImage);
@@ -170,4 +171,4 @@ const addHandlersToForm = () => {
   buttonUploadCancel.addEventListener('click', onCloseForm);
 };
 
-export {addHandlersToForm};
+export {addHandlersToForm, onCloseKeydown};
