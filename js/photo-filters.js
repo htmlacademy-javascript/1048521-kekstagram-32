@@ -1,6 +1,8 @@
 import {debounce} from './util.js';
 const COUNT_RENDERED_PHOTOS = 25;
 const RERENDER_DELAY = 500;
+const MAX_PHOTO_COUNT = 10;
+const START_INDEX = 0;
 const boxFiltersFormElement = document.querySelector('.img-filters__form');
 const buttonsFiltersFormElements = boxFiltersFormElement.querySelectorAll('.img-filters__button');
 const filterDefaultElement = document.querySelector('#filter-default');
@@ -20,7 +22,7 @@ const getRankPhotos = (photos) => photos.comments.length;
  */
 const getRandomPhotos = (photos) => {
   const photosRandom = photos.slice().sort(() => 0.5 - Math.random());
-  return photosRandom.slice(0, 10);
+  return photosRandom.slice(START_INDEX, MAX_PHOTO_COUNT);
 };
 /**
  * Функция сортировки изображений по количеству комментариев
@@ -45,7 +47,7 @@ const setClick = (photos, cb) => {
     });
     if (evt.target.id === 'filter-default') {
       filterDefaultElement.classList.add('img-filters__button--active');
-      cb(photos.slice(0, COUNT_RENDERED_PHOTOS));
+      cb(photos.slice(START_INDEX, COUNT_RENDERED_PHOTOS));
     } else if (evt.target.id === 'filter-discussed') {
       filterDiscussedElement.classList.add('img-filters__button--active');
       cb(photos.slice().sort(comparePhotos));
