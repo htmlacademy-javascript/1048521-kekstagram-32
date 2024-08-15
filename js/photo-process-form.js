@@ -1,9 +1,9 @@
 const IMAGE_ZOOM_STEP = 25;
 const MAXIMUM_IMAGE_MAGNIFICATION = 100;
 const sliderElement = document.querySelector('.img-upload__effect-level');
-const effectsList = document.querySelector('.effects__list');
-const previewPhoto = document.querySelector('.img-upload__preview img');
-const scaleControlValue = document.querySelector('.scale__control--value');
+const effectsListElement = document.querySelector('.effects__list');
+const previewPhotoElement = document.querySelector('.img-upload__preview img');
+const scaleControlValueElement = document.querySelector('.scale__control--value');
 
 noUiSlider.create(sliderElement, {
   range: {
@@ -20,9 +20,7 @@ noUiSlider.create(sliderElement, {
       }
       return value.toFixed(1);
     },
-    from: function (value) {
-      return parseFloat(value);
-    },
+    from:(value) => parseFloat(value),
   },
 });
 
@@ -79,14 +77,14 @@ const imageEffects = {
  * @param {array} effects - массив эффектов
  */
 const addStylePicture = (filterValue, effects) => {
-  const inputChecked = effectsList.querySelector('input:checked');
+  const inputChecked = effectsListElement.querySelector('input:checked');
   const effect = effects[inputChecked.value];
   if (effect.view === 'none') {
-    previewPhoto.style.filter = 'none';
+    previewPhotoElement.style.filter = 'none';
   } else {
-    previewPhoto.style.filter = `${effect.view}(${filterValue}${effect.part})`;
+    previewPhotoElement.style.filter = `${effect.view}(${filterValue}${effect.part})`;
   }
-  previewPhoto.style.setProperty('--effect-filter', `${effect.view}(${filterValue}${effect.part})`);
+  previewPhotoElement.style.setProperty('--effect-filter', `${effect.view}(${filterValue}${effect.part})`);
 };
 
 /**
@@ -116,10 +114,10 @@ const onChangeSliderEffect = (evt) => {
  * Функция уменьшения масштаба загруженной картинки
  */
 const onDecreaseImage = () => {
-  const valueSlice = +scaleControlValue.value.slice(0, -1);
+  const valueSlice = +scaleControlValueElement.value.slice(0, -1);
   if (valueSlice > IMAGE_ZOOM_STEP) {
-    scaleControlValue.setAttribute('value', `${valueSlice - IMAGE_ZOOM_STEP}%`);
-    previewPhoto.style.transform = `scale(${(valueSlice - IMAGE_ZOOM_STEP) / 100})`;
+    scaleControlValueElement.setAttribute('value', `${valueSlice - IMAGE_ZOOM_STEP}%`);
+    previewPhotoElement.style.transform = `scale(${(valueSlice - IMAGE_ZOOM_STEP) / 100})`;
   }
 };
 
@@ -127,14 +125,14 @@ const onDecreaseImage = () => {
  * Функция увеличения масштаба загруженной картинки
  */
 const onIncreaseImage = () => {
-  const valueSlice = +scaleControlValue.value.slice(0, -1);
+  const valueSlice = +scaleControlValueElement.value.slice(0, -1);
   if (valueSlice <= (MAXIMUM_IMAGE_MAGNIFICATION - IMAGE_ZOOM_STEP)) {
-    scaleControlValue.setAttribute('value', `${+valueSlice + IMAGE_ZOOM_STEP}%`);
-    previewPhoto.style.transform = `scale(${(valueSlice + IMAGE_ZOOM_STEP) / 100})`;
+    scaleControlValueElement.setAttribute('value', `${+valueSlice + IMAGE_ZOOM_STEP}%`);
+    previewPhotoElement.style.transform = `scale(${(valueSlice + IMAGE_ZOOM_STEP) / 100})`;
   }
   if (valueSlice > (MAXIMUM_IMAGE_MAGNIFICATION - IMAGE_ZOOM_STEP)) {
-    previewPhoto.style.transform = 'scale(1)';
+    previewPhotoElement.style.transform = 'scale(1)';
   }
 };
 
-export {addStylePicture, onChangeSliderEffect, onDecreaseImage, onIncreaseImage, imageEffects, sliderElement, effectsList, previewPhoto, scaleControlValue};
+export {addStylePicture, onChangeSliderEffect, onDecreaseImage, onIncreaseImage, imageEffects, sliderElement, effectsListElement, previewPhotoElement, scaleControlValueElement};

@@ -1,6 +1,6 @@
 import {showErrorData, showSuccess, showErrorForm} from './util.js';
 import {setClick} from './photo-filters.js';
-import {drawingPhotos} from './miniatures.js';
+import {drawPhotos} from './miniatures.js';
 const BASE_URL_DATA = 'https://32.javascript.htmlacademy.pro/kekstagram/data';
 const BASE_URL_FORM = 'https://32.javascript.htmlacademy.pro/kekstagram';
 let photosCollection = [];
@@ -15,9 +15,9 @@ const getData = () => {
     .then((response) => response.json())
     .then((photos) => {
       photosCollection = photos;
-      drawingPhotos(photosCollection);
+      drawPhotos(photosCollection);
       imgFilters.classList.remove('img-filters--inactive');
-      setClick(photosCollection, drawingPhotos);
+      setClick(photosCollection, drawPhotos);
     })
     .catch(() => {
       showErrorData('Не удалось загрузить данные');
@@ -27,7 +27,7 @@ const getData = () => {
 /**
  * Функция отправки данных из формы на сервер
  */
-const sentData = (formData, closeForm) => {
+const sendData = (formData, closeForm) => {
   fetch(BASE_URL_FORM,
     {
       method: 'POST',
@@ -44,4 +44,4 @@ const sentData = (formData, closeForm) => {
     });
 };
 
-export {getData, sentData};
+export {getData, sendData};
