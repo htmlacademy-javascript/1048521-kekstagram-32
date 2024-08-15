@@ -83,8 +83,10 @@ const addStylePicture = (filterValue, effects) => {
   const effect = effects[inputChecked.value];
   if (effect.view === 'none') {
     previewPhoto.style.filter = 'none';
+  } else {
+    previewPhoto.style.filter = `${effect.view}(${filterValue}${effect.part})`;
   }
-  previewPhoto.style.filter = `${effect.view}(${filterValue}${effect.part})`;
+  previewPhoto.style.setProperty('--effect-filter', `${effect.view}(${filterValue}${effect.part})`);
 };
 
 /**
@@ -116,7 +118,7 @@ const onChangeSliderEffect = (evt) => {
 const onDecreaseImage = () => {
   const valueSlice = +scaleControlValue.value.slice(0, -1);
   if (valueSlice > IMAGE_ZOOM_STEP) {
-    scaleControlValue.value = `${valueSlice - IMAGE_ZOOM_STEP}%`;
+    scaleControlValue.setAttribute('value', `${valueSlice - IMAGE_ZOOM_STEP}%`);
     previewPhoto.style.transform = `scale(${(valueSlice - IMAGE_ZOOM_STEP) / 100})`;
   }
 };
@@ -127,7 +129,7 @@ const onDecreaseImage = () => {
 const onIncreaseImage = () => {
   const valueSlice = +scaleControlValue.value.slice(0, -1);
   if (valueSlice <= (MAXIMUM_IMAGE_MAGNIFICATION - IMAGE_ZOOM_STEP)) {
-    scaleControlValue.value = `${+valueSlice + IMAGE_ZOOM_STEP}%`;
+    scaleControlValue.setAttribute('value', `${+valueSlice + IMAGE_ZOOM_STEP}%`);
     previewPhoto.style.transform = `scale(${(valueSlice + IMAGE_ZOOM_STEP) / 100})`;
   }
   if (valueSlice > (MAXIMUM_IMAGE_MAGNIFICATION - IMAGE_ZOOM_STEP)) {

@@ -103,44 +103,45 @@ const onCloseKeydown = (evt) => {
     if (evt.target !== inputHashtags && evt.target !== textareaDescription) {
       evt.preventDefault();
       imgUploadOverlay.classList.add('hidden');
+      buttonUploadSubmit.disabled = false;
       inputImgUpload.value = '';
       sliderElement.noUiSlider.set(0);
-      scaleControlValue.value = '100%';
+      scaleControlValue.setAttribute('value', '100%');
       previewPhoto.style.transform = 'scale(1)';
       document.querySelector('.effects__radio').checked = true;
-      buttonUploadSubmit.disabled = false;
     }
   }
-};
-
-/**
- * Функция отрытия полномерного изображения
- */
-const onOpenFullSizeImage = () => {
-  previewPhoto.src = URL.createObjectURL(inputImgUpload.files[0]);
-  formImgUpload.querySelectorAll('.effects__preview').forEach((preview) => {
-    preview.style.backgroundImage = `url(${previewPhoto.src})`;
-  });
-  imgUploadOverlay.classList.remove('hidden');
-  document.querySelector('body').classList.add('modal-open');
-  document.addEventListener('keydown', onCloseKeydown);
-  sliderElement.classList.add('hidden');
 };
 
 /**
 * Функция закрытия полномерного изображения
 */
 const onCloseForm = () => {
+  buttonUploadSubmit.disabled = false;
   formImgUpload.reset();
   pristine.reset();
-  imgUploadOverlay.classList.add('hidden');
   document.querySelector('body').classList.remove('modal-open');
   document.removeEventListener('keydown', onCloseKeydown);
   sliderElement.noUiSlider.set(0);
-  scaleControlValue.value = '100%';
+  scaleControlValue.setAttribute('value', '100%');
   previewPhoto.style.transform = 'scale(1)';
   document.querySelector('.effects__radio').checked = true;
-  buttonUploadSubmit.disabled = false;
+  imgUploadOverlay.classList.add('hidden');
+};
+
+/**
+ * Функция отрытия полномерного изображения
+ */
+const onOpenFullSizeImage = () => {
+  imgUploadOverlay.classList.remove('hidden');
+  previewPhoto.src = URL.createObjectURL(inputImgUpload.files[0]);
+  formImgUpload.querySelectorAll('.effects__preview').forEach((preview) => {
+    preview.style.backgroundImage = `url(${previewPhoto.src})`;
+  });
+  document.querySelector('body').classList.add('modal-open');
+  document.addEventListener('keydown', onCloseKeydown);
+  sliderElement.classList.add('hidden');
+  buttonUploadCancel.addEventListener('click', onCloseForm);
 };
 
 
@@ -168,7 +169,6 @@ const addHandlersToForm = () => {
     }
   });
   inputImgUpload.addEventListener('change', onOpenFullSizeImage);
-  buttonUploadCancel.addEventListener('click', onCloseForm);
 };
 
 export {addHandlersToForm, onCloseKeydown};
