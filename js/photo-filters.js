@@ -1,11 +1,14 @@
 import {debounce} from './util.js';
 const COUNT_RENDERED_PHOTOS = 25;
 const RERENDER_DELAY = 500;
-const boxFiltersForm = document.querySelector('.img-filters__form');
-const buttonsFiltersForm = boxFiltersForm.querySelectorAll('.img-filters__button');
-const filterDefault = document.querySelector('#filter-default');
-const filterDiscussed = document.querySelector('#filter-discussed');
-const filterRandom = document.querySelector('#filter-random');
+const MAX_PHOTO_COUNT = 10;
+const START_INDEX = 0;
+const boxFiltersFormElement = document.querySelector('.img-filters__form');
+const buttonsFiltersFormElements = boxFiltersFormElement.querySelectorAll('.img-filters__button');
+const filterDefaultElement = document.querySelector('#filter-default');
+const filterDiscussedElement = document.querySelector('#filter-discussed');
+const filterRandomElement = document.querySelector('#filter-random');
+
 /**
  * Функция извлекает количесвто комментариев каждой фотографии
  * @param {array} photos - массив объектов данных изображения
@@ -19,7 +22,7 @@ const getRankPhotos = (photos) => photos.comments.length;
  */
 const getRandomPhotos = (photos) => {
   const photosRandom = photos.slice().sort(() => 0.5 - Math.random());
-  return photosRandom.slice(0, 10);
+  return photosRandom.slice(START_INDEX, MAX_PHOTO_COUNT);
 };
 /**
  * Функция сортировки изображений по количеству комментариев
@@ -38,18 +41,18 @@ const comparePhotos = (photoA, photoB) => {
  * @param {function} cb - колбэк функция для отрисовки изображения
  */
 const setClick = (photos, cb) => {
-  boxFiltersForm.addEventListener('click', debounce((evt) => {
-    buttonsFiltersForm.forEach((button) => {
+  boxFiltersFormElement.addEventListener('click', debounce((evt) => {
+    buttonsFiltersFormElements.forEach((button) => {
       button.classList.remove('img-filters__button--active');
     });
     if (evt.target.id === 'filter-default') {
-      filterDefault.classList.add('img-filters__button--active');
-      cb(photos.slice(0, COUNT_RENDERED_PHOTOS));
+      filterDefaultElement.classList.add('img-filters__button--active');
+      cb(photos.slice(START_INDEX, COUNT_RENDERED_PHOTOS));
     } else if (evt.target.id === 'filter-discussed') {
-      filterDiscussed.classList.add('img-filters__button--active');
+      filterDiscussedElement.classList.add('img-filters__button--active');
       cb(photos.slice().sort(comparePhotos));
     } else if (evt.target.id === 'filter-random') {
-      filterRandom.classList.add('img-filters__button--active');
+      filterRandomElement.classList.add('img-filters__button--active');
       cb(getRandomPhotos(photos));
     }
   }, RERENDER_DELAY));
