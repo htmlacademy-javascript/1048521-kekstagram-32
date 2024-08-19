@@ -1,6 +1,6 @@
 const IMAGE_ZOOM_STEP = 25;
 const MAXIMUM_IMAGE_MAGNIFICATION = 100;
-const sliderElement = document.querySelector('.img-upload__effect-level');
+const sliderElement = document.querySelector('.effect-level__slider');
 const effectsListElement = document.querySelector('.effects__list');
 const previewPhotoElement = document.querySelector('.img-upload__preview img');
 const scaleControlValueElement = document.querySelector('.scale__control--value');

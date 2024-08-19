@@ -2,7 +2,7 @@ import {showErrorData, showSuccess, showErrorForm} from './util.js';
 import {setClick} from './photo-filters.js';
 import {drawPhotos} from './miniatures.js';
 const BASE_URL_DATA = 'https://32.javascript.htmlacademy.pro/kekstagram/data';
-const BASE_URL_FORM = 'https://32.javascript.htmlacademy.pro/kekstagram';
+const BASE_URL_FORM = 'https://32.javascript.htmlacademy.pro/kekstagram/';
 let photosCollection = [];
 
 /**

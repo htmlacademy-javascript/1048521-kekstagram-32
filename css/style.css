@@ -535,6 +535,7 @@ main {
   padding: 7px 11px 0;
 
   width: 495px;
+  height: 34px;
 
   font-size: 12px;
   text-align: center;
@@ -1427,8 +1428,4 @@ main {
 
 .hidden {
   display: none;
-}
-
-.img-upload__effect-level {
- padding: 0;
 }

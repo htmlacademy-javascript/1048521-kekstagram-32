@@ -150,6 +150,15 @@ const onOpenFullSizeImage = () => {
  * Функция добавления обработчиков событий на форму
  */
 const addHandlersToForm = () => {
+  formImgUploadElement.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+    if (isValid) {
+      const formData = new FormData(evt.target);
+      sendData(formData, onCloseForm);
+    }
+  });
+
   sliderElement.noUiSlider.on('update', () => {
     valueElement.value = sliderElement.noUiSlider.get();
     addStylePicture(sliderElement.noUiSlider.get(), imageEffects);
@@ -160,15 +169,6 @@ const addHandlersToForm = () => {
   buttonScaleControlBiggerElement.addEventListener('click', onIncreaseImage);
 
   addValidatorToForm();
-
-  formImgUploadElement.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-    const isValid = pristine.validate();
-    if (isValid) {
-      const formData = new FormData(evt.target);
-      sendData(formData, onCloseForm);
-    }
-  });
   inputImgUploadElement.addEventListener('change', onOpenFullSizeImage);
 };
 
