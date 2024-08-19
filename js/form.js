@@ -152,6 +152,7 @@ const onOpenFullSizeImage = () => {
 const addHandlersToForm = () => {
   formImgUploadElement.addEventListener('submit', (evt) => {
     evt.preventDefault();
+    buttonUploadSubmitElement.disabled = true;
     const isValid = pristine.validate();
     if (isValid) {
       const formData = new FormData(evt.target);

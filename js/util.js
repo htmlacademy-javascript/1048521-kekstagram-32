@@ -91,7 +91,7 @@ const showSuccess = (message) => {
   });
 
   document.addEventListener('click', (evt) => {
-    if (evt.target !== templateShowSuccessElement) {
+    if (evt.target === templateShowSuccessElement) {
       templateShowSuccessElement.remove();
     }
   });
