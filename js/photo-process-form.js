@@ -1,6 +1,7 @@
 const IMAGE_ZOOM_STEP = 25;
 const MAXIMUM_IMAGE_MAGNIFICATION = 100;
 const sliderElement = document.querySelector('.effect-level__slider');
+const effectLevelContainerElement = document.querySelector('.img-upload__effect-level');
 const effectsListElement = document.querySelector('.effects__list');
 const previewPhotoElement = document.querySelector('.img-upload__preview img');
 const scaleControlValueElement = document.querySelector('.scale__control--value');
@@ -95,9 +96,9 @@ const onChangeSliderEffect = (evt) => {
   const effect = imageEffects[(evt.target.id.split('-'))[1]];
   if (effect.view === 'none') {
     sliderElement.noUiSlider.set(0);
-    sliderElement.classList.add('hidden');
+    effectLevelContainerElement.classList.add('hidden');
   } else {
-    sliderElement.classList.remove('hidden');
+    effectLevelContainerElement.classList.remove('hidden');
     sliderElement.noUiSlider.updateOptions({
       range: {
         min: effect.minSlider,
@@ -135,4 +136,4 @@ const onIncreaseImage = () => {
   }
 };
 
-export {addStylePicture, onChangeSliderEffect, onDecreaseImage, onIncreaseImage, imageEffects, sliderElement, effectsListElement, previewPhotoElement, scaleControlValueElement};
+export {addStylePicture, onChangeSliderEffect, onDecreaseImage, onIncreaseImage, imageEffects, sliderElement, effectsListElement, previewPhotoElement, scaleControlValueElement,effectLevelContainerElement};
