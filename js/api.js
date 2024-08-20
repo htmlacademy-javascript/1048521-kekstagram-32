@@ -27,21 +27,18 @@ const getData = () => {
 /**
  * Функция отправки данных из формы на сервер
  */
-const sendData = (formData, closeForm) => {
-  fetch(BASE_URL_FORM,
-    {
-      method: 'POST',
-      body: formData,
-    },
-  )
-    .then((response) => {
-      if (response.ok) {
-        closeForm();
-        showSuccess('Изображение успешно загружено');
-      } else {
-        showErrorForm('Ошибка загрузки файла');
-      }
-    });
-};
+const sendData = (formData, closeForm) => fetch(BASE_URL_FORM, {
+  method: 'POST',
+  body: formData,
+},
+)
+  .then((response) => {
+    if (response.ok) {
+      closeForm();
+      showSuccess('Изображение успешно загружено');
+    } else {
+      showErrorForm('Ошибка загрузки файла');
+    }
+  });
 
 export {getData, sendData};
