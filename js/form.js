@@ -1,5 +1,5 @@
 import {sendData} from './api.js';
-import {addStylePicture, onChangeSliderEffect, onDecreaseImage, onIncreaseImage, imageEffects, sliderElement, effectsListElement, previewPhotoElement, scaleControlValueElement} from './photo-process-form.js';
+import {addStylePicture, onChangeSliderEffect, onDecreaseImage, onIncreaseImage, imageEffects, sliderElement, effectsListElement, previewPhotoElement, scaleControlValueElement, effectLevelContainerElement} from './photo-process-form.js';
 const HASHTAG_LENGTH_MAX = 20;
 const HASHTAG_LENGTH_MIN = 2;
 const formImgUploadElement = document.querySelector('.img-upload__form');
@@ -141,7 +141,7 @@ const onOpenFullSizeImage = () => {
   });
   document.querySelector('body').classList.add('modal-open');
   document.addEventListener('keydown', onCloseKeydown);
-  sliderElement.classList.add('hidden');
+  effectLevelContainerElement.classList.add('hidden');
   buttonUploadCancelElement.addEventListener('click', onCloseForm);
 };
 
@@ -152,6 +152,7 @@ const onOpenFullSizeImage = () => {
 const addHandlersToForm = () => {
   formImgUploadElement.addEventListener('submit', (evt) => {
     evt.preventDefault();
+    buttonUploadSubmitElement.disabled = true;
     const isValid = pristine.validate();
     if (isValid) {
       const formData = new FormData(evt.target);
@@ -172,4 +173,4 @@ const addHandlersToForm = () => {
   inputImgUploadElement.addEventListener('change', onOpenFullSizeImage);
 };
 
-export {addHandlersToForm, onCloseKeydown};
+export {addHandlersToForm, onCloseKeydown, buttonUploadSubmitElement};
