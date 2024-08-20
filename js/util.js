@@ -1,4 +1,4 @@
-import {onCloseKeydown} from './form.js';
+import {onCloseKeydown, buttonUploadSubmitElement} from './form.js';
 const ALERT_SHOW_TIME = 5000;
 
 /**
@@ -51,16 +51,20 @@ const showErrorForm = (message) => {
   const buttonElement = errorElement.querySelector('.error__button');
   buttonElement.addEventListener('click', () => {
     errorElement.classList.add('hidden');
+    buttonUploadSubmitElement.disabled = false;
+
   });
   document.addEventListener('click', (evt) => {
     if (evt.target === errorElement) {
       errorElement.classList.add('hidden');
+      buttonUploadSubmitElement.disabled = false;
     }
   });
   document.addEventListener('keydown', (evt) => {
     if (evt.key === 'Escape') {
       errorElement.classList.add('hidden');
       document.addEventListener('keydown', onCloseKeydown);
+      buttonUploadSubmitElement.disabled = false;
     }
   });
   document.removeEventListener('keydown', onCloseKeydown);
@@ -91,7 +95,7 @@ const showSuccess = (message) => {
   });
 
   document.addEventListener('click', (evt) => {
-    if (evt.target !== templateShowSuccessElement) {
+    if (evt.target === templateShowSuccessElement) {
       templateShowSuccessElement.remove();
     }
   });
