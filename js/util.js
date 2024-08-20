@@ -52,12 +52,13 @@ const showErrorForm = (message) => {
   buttonElement.addEventListener('click', () => {
     errorElement.classList.add('hidden');
     buttonUploadSubmitElement.disabled = false;
-
+    document.body.removeChild(errorElement);
   });
   document.addEventListener('click', (evt) => {
     if (evt.target === errorElement) {
       errorElement.classList.add('hidden');
       buttonUploadSubmitElement.disabled = false;
+      document.body.removeChild(errorElement);
     }
   });
   document.addEventListener('keydown', (evt) => {
@@ -65,6 +66,7 @@ const showErrorForm = (message) => {
       errorElement.classList.add('hidden');
       document.addEventListener('keydown', onCloseKeydown);
       buttonUploadSubmitElement.disabled = false;
+      document.body.removeChild(errorElement);
     }
   });
   document.removeEventListener('keydown', onCloseKeydown);
