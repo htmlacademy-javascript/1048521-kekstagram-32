@@ -97,39 +97,13 @@ const addValidatorToForm = () => {
 
 
 /**
- * Функция закрытия полномерного изображения по нажатию клавиши Esc
+ * Функция сброса значений загрузки изображения
  */
-const onCloseKeydown = (evt) => {
-  if (evt.key === 'Escape') {
-    if (evt.target !== inputHashtagsElement && evt.target !== textareaDescriptionElement) {
-      evt.preventDefault();
-      imgUploadOverlayElement.classList.add('hidden');
-      buttonUploadSubmitElement.disabled = false;
-      inputImgUploadElement.value = '';
-      sliderElement.noUiSlider.set(0);
-      scaleControlValueElement.setAttribute('value', '100%');
-      previewPhotoElement.style.transform = 'scale(1)';
-      document.querySelector('.effects__radio').checked = true;
-      formImgUploadElement.reset();
-      pristine.reset();
-      document.querySelector('body').classList.remove('modal-open');
-      previewPhotoElement.src = '';
-      formImgUploadElement.querySelectorAll('.effects__preview').forEach((preview) => {
-        preview.style.backgroundImage = '';
-      });
-    }
-  }
-};
-
-/**
-* Функция закрытия полномерного изображения
-*/
-const onCloseForm = () => {
-  buttonUploadSubmitElement.disabled = false;
+const resetUploadForm = () => {
+  buttonUploadSubmitElement.removeAttribute('disabled');
   formImgUploadElement.reset();
   pristine.reset();
   document.querySelector('body').classList.remove('modal-open');
-  document.removeEventListener('keydown', onCloseKeydown);
   sliderElement.noUiSlider.set(0);
   scaleControlValueElement.setAttribute('value', '100%');
   previewPhotoElement.style.transform = 'scale(1)';
@@ -139,6 +113,26 @@ const onCloseForm = () => {
   formImgUploadElement.querySelectorAll('.effects__preview').forEach((preview) => {
     preview.style.backgroundImage = '';
   });
+};
+
+/**
+ * Функция закрытия полномерного изображения по нажатию клавиши Esc
+ */
+const onCloseKeydown = (evt) => {
+  if (evt.key === 'Escape') {
+    if (evt.target !== inputHashtagsElement && evt.target !== textareaDescriptionElement) {
+      evt.preventDefault();
+      resetUploadForm();
+    }
+  }
+};
+
+/**
+ * Функция закрытия полномерного изображения
+ */
+const onCloseForm = () => {
+  resetUploadForm();
+  document.removeEventListener('keydown', onCloseKeydown);
 };
 
 /**
@@ -154,6 +148,7 @@ const onOpenFullSizeImage = () => {
   document.addEventListener('keydown', onCloseKeydown);
   effectLevelContainerElement.classList.add('hidden');
   buttonUploadCancelElement.addEventListener('click', onCloseForm);
+  buttonUploadSubmitElement.removeAttribute('disabled');
 };
 
 
@@ -166,8 +161,10 @@ const addHandlersToForm = () => {
     const isValid = pristine.validate();
     if (isValid) {
       const formData = new FormData(evt.target);
-      sendData(formData, onCloseForm);
       buttonUploadSubmitElement.disabled = true;
+      sendData(formData, onCloseForm).then(() => {
+        buttonUploadSubmitElement.removeAttribute('disabled');
+      });
     }
   });
 
