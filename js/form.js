@@ -82,17 +82,17 @@ const checkUniquenessHashtags = (value) => {
  * Функция добавления валидатора на форму
  */
 const addValidatorToForm = () => {
-  pristine.addValidator(formImgUploadElement.querySelector('.text__hashtags'), validateHashtagsLengthMax, 'Максимальная длина одного хэштега должна быть не более 20 символов, включая решётку');
+  pristine.addValidator(formImgUploadElement.querySelector('.text__hashtags'), validateHashtagsLengthMax, 'Максимальная длина одного хэштега должна быть не более 20 символов, включая решётку', 4);
 
-  pristine.addValidator(formImgUploadElement.querySelector('.text__hashtags'), validateHashtagsLengthMin, 'Минимальная длина одного хэштега должна быть не меньше 2 символов, включая решётку');
+  pristine.addValidator(formImgUploadElement.querySelector('.text__hashtags'), validateHashtagsLengthMin, 'Минимальная длина одного хэштега должна быть не меньше 2 символов, включая решётку', 3);
 
-  pristine.addValidator(formImgUploadElement.querySelector('.text__hashtags'), checkFirstCharacter, 'Хэштег должен начинаться с символа # (решётка)');
+  pristine.addValidator(formImgUploadElement.querySelector('.text__hashtags'), checkFirstCharacter, 'Хэштег должен начинаться с символа # (решётка)', 1);
 
-  pristine.addValidator(formImgUploadElement.querySelector('.text__hashtags'), validateHashtag, 'Строка не соответсвтует шаблону: должны быть первый символ #, далее цифры и буквы');
+  pristine.addValidator(formImgUploadElement.querySelector('.text__hashtags'), validateHashtag, 'Строка не соответсвтует шаблону: должны быть первый символ #, далее цифры и буквы', 2);
 
-  pristine.addValidator(formImgUploadElement.querySelector('.text__hashtags'), checkNumberHashtags, 'Нельзя указать больше пяти хэштегов');
+  pristine.addValidator(formImgUploadElement.querySelector('.text__hashtags'), checkNumberHashtags, 'Нельзя указать больше пяти хэштегов', 6);
 
-  pristine.addValidator(formImgUploadElement.querySelector('.text__hashtags'), checkUniquenessHashtags, 'Один и тот же хэштег не может быть использован дважды');
+  pristine.addValidator(formImgUploadElement.querySelector('.text__hashtags'), checkUniquenessHashtags, 'Один и тот же хэштег не может быть использован дважды', 5);
 };
 
 
@@ -110,6 +110,13 @@ const onCloseKeydown = (evt) => {
       scaleControlValueElement.setAttribute('value', '100%');
       previewPhotoElement.style.transform = 'scale(1)';
       document.querySelector('.effects__radio').checked = true;
+      formImgUploadElement.reset();
+      pristine.reset();
+      document.querySelector('body').classList.remove('modal-open');
+      previewPhotoElement.src = '';
+      formImgUploadElement.querySelectorAll('.effects__preview').forEach((preview) => {
+        preview.style.backgroundImage = '';
+      });
     }
   }
 };
@@ -128,6 +135,10 @@ const onCloseForm = () => {
   previewPhotoElement.style.transform = 'scale(1)';
   document.querySelector('.effects__radio').checked = true;
   imgUploadOverlayElement.classList.add('hidden');
+  previewPhotoElement.src = '';
+  formImgUploadElement.querySelectorAll('.effects__preview').forEach((preview) => {
+    preview.style.backgroundImage = '';
+  });
 };
 
 /**
@@ -152,11 +163,11 @@ const onOpenFullSizeImage = () => {
 const addHandlersToForm = () => {
   formImgUploadElement.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    buttonUploadSubmitElement.disabled = true;
     const isValid = pristine.validate();
     if (isValid) {
       const formData = new FormData(evt.target);
       sendData(formData, onCloseForm);
+      buttonUploadSubmitElement.disabled = true;
     }
   });
 
