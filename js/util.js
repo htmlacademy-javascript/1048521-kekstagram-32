@@ -49,24 +49,24 @@ const showErrorForm = (message) => {
   document.body.appendChild(errorElement);
 
   const buttonElement = errorElement.querySelector('.error__button');
-  buttonElement.addEventListener('click', () => {
+  const hideErrorElement = () => {
     errorElement.classList.add('hidden');
     buttonUploadSubmitElement.disabled = false;
     document.body.removeChild(errorElement);
-  });
+  };
+
+  buttonElement.addEventListener('click', hideErrorElement);
+
   document.addEventListener('click', (evt) => {
     if (evt.target === errorElement) {
-      errorElement.classList.add('hidden');
-      buttonUploadSubmitElement.disabled = false;
-      document.body.removeChild(errorElement);
+      hideErrorElement();
     }
   });
+
   document.addEventListener('keydown', (evt) => {
     if (evt.key === 'Escape') {
-      errorElement.classList.add('hidden');
+      hideErrorElement();
       document.addEventListener('keydown', onCloseKeydown);
-      buttonUploadSubmitElement.disabled = false;
-      document.body.removeChild(errorElement);
     }
   });
   document.removeEventListener('keydown', onCloseKeydown);
