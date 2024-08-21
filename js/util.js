@@ -49,23 +49,23 @@ const showErrorForm = (message) => {
   document.body.appendChild(errorElement);
 
   const buttonElement = errorElement.querySelector('.error__button');
-  const hideErrorElement = () => {
+  const onHideErrorElement = () => {
     errorElement.classList.add('hidden');
     buttonUploadSubmitElement.disabled = false;
     document.body.removeChild(errorElement);
   };
 
-  buttonElement.addEventListener('click', hideErrorElement);
+  buttonElement.addEventListener('click', onHideErrorElement);
 
   document.addEventListener('click', (evt) => {
     if (evt.target === errorElement) {
-      hideErrorElement();
+      onHideErrorElement();
     }
   });
 
   document.addEventListener('keydown', (evt) => {
     if (evt.key === 'Escape') {
-      hideErrorElement();
+      onHideErrorElement();
       document.addEventListener('keydown', onCloseKeydown);
     }
   });
