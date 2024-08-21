@@ -41,21 +41,21 @@ const comparePhotos = (photoA, photoB) => {
  * @param {function} cb - колбэк функция для отрисовки изображения
  */
 const setClick = (photos, cb) => {
-  boxFiltersFormElement.addEventListener('click', debounce((evt) => {
+  boxFiltersFormElement.addEventListener('click', (evt) => {
     buttonsFiltersFormElements.forEach((button) => {
       button.classList.remove('img-filters__button--active');
     });
     if (evt.target.id === 'filter-default') {
       filterDefaultElement.classList.add('img-filters__button--active');
-      cb(photos.slice(START_INDEX, COUNT_RENDERED_PHOTOS));
+      debounce(() => cb(photos.slice(START_INDEX, COUNT_RENDERED_PHOTOS)), RERENDER_DELAY)();
     } else if (evt.target.id === 'filter-discussed') {
       filterDiscussedElement.classList.add('img-filters__button--active');
-      cb(photos.slice().sort(comparePhotos));
+      debounce(() => cb(photos.slice().sort(comparePhotos)), RERENDER_DELAY)();
     } else if (evt.target.id === 'filter-random') {
       filterRandomElement.classList.add('img-filters__button--active');
-      cb(getRandomPhotos(photos));
+      debounce(() => cb(getRandomPhotos(photos)), RERENDER_DELAY)();
     }
-  }, RERENDER_DELAY));
+  });
 };
 
 export {setClick};
